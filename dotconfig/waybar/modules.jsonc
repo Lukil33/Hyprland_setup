@@ -4,16 +4,16 @@
 
     // Custom settings
     "custom/settings": {
-	"format": " ",
-	"on-click": "swaync-client -t",
-	"tooltip": false,
+        "format": " ",
+        "on-click": "swaync-client -t",
+        "tooltip": false
     },
 
     // Clock
     "clock": {
         "format": "{:%H:%M %a}",
         "timezone": "Europe/Rome",
-	"on-click": "gnome-calendar"
+	    "on-click": "gnome-calendar"
     },
 
     // Custom update
@@ -21,7 +21,7 @@
         "format": "󰅢  {}",
         "exec": "dnf check-update -q | grep -c ^[a-z0-9] || echo 0",
         "interval": 60,
-	"tooltip": false
+	    "tooltip": false
     },
 
 
@@ -36,8 +36,8 @@
             "default": " ",
             "empty": " "
         },
-	"sort-by-number": true,
-	"separate-outputs": true,
+        "sort-by-number": true,
+        "separate-outputs": true
     },
 
 
@@ -52,20 +52,20 @@
     "memory": {
         "format": " ",
         "tooltip": false,
-        "on-click": "baobab",
+        "on-click": "baobab"
     },
     // CPU
     "cpu": {
-	"format": " ",
+	    "format": " ",
         "tooltip": false,
-        "on-click": "gnome-system-monitor",
+        "on-click": "kitty -e btop"
     },
     // Temperature
     "temperature":{
         "format": "",
         "tooltip": false,
         "critical-threshold": 80,
-        "on-click": "gnome-system-monitor",
+        "on-click": "kitty -e btop"
     },
     // Custom endpoint
     "custom/endpoint":{
@@ -80,7 +80,7 @@
             "transition-to-left": true,
             "click-to-reveal": true
         },
-	"modules": [
+	    "modules": [
             "custom/expand",
             "memory",
             "cpu",
@@ -104,17 +104,17 @@
             "car": " ",
             "default": [" "," "," "," "," "," "," "," "," "," "]
         },
-	"tooltip": false,
-	"on-click": "~/.config/rofi/Volume/rofi-volume"
+        "tooltip": false,
+        "on-click": "~/.config/rofi/Volume/rofi-volume"
     },
 
     // Bluetooth
     "bluetooth": {
         "format": "󰂯",
-	"format-disabled": "󰂲" ,
-	"tooltip": false,
+        "format-disabled": "󰂲" ,
+        "tooltip": false,
         "interval": 30,
-        "on-click": "~/.config/rofi/Bluetooth/rofi-bluetooth",
+        "on-click": "~/.config/rofi/Bluetooth/rofi-bluetooth"
     },
 
     // Network
@@ -124,7 +124,7 @@
         "format-disconnected": " ",
         "tooltip": false,
         "max-length": 50,
-        "on-click": "alacritty --class dotfiles-floating -e nmtui",
+        "on-click": "alacritty --class dotfiles-floating -e nmtui"
     },
 
     // Battery
@@ -134,18 +134,18 @@
             "warning": 20,
             "critical": 10
         },
-	"interval": 30,
-	"format": "{capacity}% {icon}",
+	    "interval": 30,
+	    "format": "{icon}",
         "format-charging": "{capacity}% ",
         "format-plugged": "{capacity}% ",
-	"tooltip": false,
-        "format-icons": ["󰁺", "󰁻", "󰁽", "󰁿", "󰂁", "󰁹"],
+	    "tooltip": false,
+        "format-icons": ["󰂎","󰁺","󰁻","󰁼","󰁽","󰁾","󰁿","󰂀","󰂁","󰂂","󰁹"]
     },
 
     //Custom exit
     "custom/exit": {
         "format": " ",
         "on-click": "rofi -show powermenu -modi powermenu:~/.config/rofi/Powermenu/rofi-power-menu",
-        "tooltip": false,
-    },
+        "tooltip": false
+    }
 }
