@@ -4,7 +4,7 @@
 
     // Custom settings
     "custom/settings": {
-        "format": " ",
+        "format": "",
         "on-click": "swaync-client -t",
         "tooltip": false
     },
@@ -18,7 +18,7 @@
 
     // Custom update
     "custom/update": {
-        "format": "󰅢  {}",
+        "format": "󰅢 {}",
         "exec": "dnf check-update -q | grep -c ^[a-z0-9] || echo 0",
         "interval": 60,
 	    "tooltip": false
@@ -32,9 +32,9 @@
        "format": "{icon}",
         "on-click": "activate",
         "format-icons": {
-	    "active": " ",
-            "default": " ",
-            "empty": " "
+	    "active": "",
+            "default": "",
+            "empty": ""
         },
         "sort-by-number": true,
         "separate-outputs": true
@@ -50,13 +50,13 @@
     },
     //Memory
     "memory": {
-        "format": " ",
+        "format": "",
         "tooltip": false,
         "on-click": "baobab"
     },
     // CPU
     "cpu": {
-	    "format": " ",
+	    "format": "",
         "tooltip": false,
         "on-click": "kitty -e btop"
     },
@@ -66,11 +66,6 @@
         "tooltip": false,
         "critical-threshold": 80,
         "on-click": "kitty -e btop"
-    },
-    // Custom endpoint
-    "custom/endpoint":{
-        "format": "|",
-        "tooltip": false
     },
     // Group Hardware
     "group/hardware": {
@@ -94,15 +89,15 @@
         "format": "{icon}",
         "format-bluetooth": "{icon}",
         "format-bluetooth-muted": "{icon}",
-        "format-muted": " ",
+        "format-muted": "",
         "format-icons": {
-            "headphone": " ",
-            "hands-free": " ",
-            "headset": " ",
-            "phone": " ",
-            "portable": " ",
-            "car": " ",
-            "default": [" "," "," "," "," "," "," "," "," "," "]
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["","","","","","","","","",""]
         },
         "tooltip": false,
         "on-click": "~/.config/rofi/Volume/rofi-volume"
@@ -119,12 +114,12 @@
 
     // Network
     "network": {
-        "format-wifi": " ",
-        "format-ethernet": " ",
-        "format-disconnected": " ",
+        "format-wifi": "",
+        "format-ethernet": "",
+        "format-disconnected": "",
         "tooltip": false,
         "max-length": 50,
-        "on-click": "alacritty --class dotfiles-floating -e nmtui"
+        "on-click": "kitty -e nmtui"
     },
 
     // Battery
@@ -135,17 +130,18 @@
             "critical": 10
         },
 	    "interval": 30,
-	    "format": "{icon}",
-        "format-charging": "{capacity}% ",
-        "format-plugged": "{capacity}% ",
+	    "format": "{icon} ",
+        "format-charging": " ",
+        "format-plugged": " ",
 	    "tooltip": false,
-        "format-icons": ["󰂎","󰁺","󰁻","󰁼","󰁽","󰁾","󰁿","󰂀","󰂁","󰂂","󰁹"]
+        "format-icons": ["󰂎","󰁺","󰁻","󰁼","󰁽","󰁾","󰁿","󰂀","󰂁","󰂂","󰁹"],
+        "on-click": "~/.config/rofi/Battery/rofi-battery"
     },
 
     //Custom exit
     "custom/exit": {
-        "format": " ",
-        "on-click": "rofi -show powermenu -modi powermenu:~/.config/rofi/Powermenu/rofi-power-menu",
+        "format": "",
+        "on-click": "wlogout",
         "tooltip": false
     }
 }

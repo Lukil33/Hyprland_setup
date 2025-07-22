@@ -10,10 +10,10 @@ get_volume() {
     
     bar=""
     for ((i=0; i<filled_blocks; i++)); do
-        bar+="="
+        bar+="#"
     done
     for ((i=0; i<empty_blocks; i++)); do
-        bar+=" "
+        bar+="_"
     done
 
     if [ "$mute" = "yes" ]; then
@@ -29,7 +29,7 @@ while true; do
     current_volume=$(get_volume)
 
     # Menu Rofi
-    choice=$(echo -e "Volume: $current_volume\n---------\nVolume-up: +10%\nVolume-down: -10%\nMute/Unmute\nExit"| rofi -dmenu)
+    choice=$(echo -e "Volume: $current_volume\n---------\nVolume-up: +10%\nVolume-down: -10%\nMute/Unmute\n----------\nExit"| rofi -dmenu -i -p "Gestione Volume")
 
     case "$choice" in
         "Volume-up: +10%")

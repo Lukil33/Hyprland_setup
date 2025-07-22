@@ -13,31 +13,30 @@
 
     // Choose the order of the modules
     "modules-left": [
-	"custom/settings",
-	"clock",
-	"custom/update"
+        "custom/settings",
+        "clock",
+        "custom/update"
     ],
     "modules-center": [
         "hyprland/workspaces"
     ],
     "modules-right": [
-	"group/hardware",
+	    "group/hardware",
         "pulseaudio",
-	"bluetooth",
-	"network",
-	"battery",
-	"custom/exit"
+        "bluetooth",
+        "network",
+        "battery",
+        "custom/exit"
     ],
 
     // Group_hardware
     "group/hardware": {
-	"orientation": "horizontal",
-	"modules": [
-	    "custom/expand",
-	    "memory",
-	    "cpu",
-	    "temperature",
-	    "custom/endpoint"
-	]
+        "orientation": "horizontal",
+        "modules": [
+            "custom/expand",
+            "memory",
+            "cpu",
+            "temperature"
+	    ]
     }
 }
