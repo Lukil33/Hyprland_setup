@@ -27,13 +27,21 @@ get_volume() {
 # Loop principale
 while true; do
     current_volume=$(get_volume)
+    numeric_volume=$(pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\d{1,3}(?=%)' | head -1)
 
     # Menu Rofi
     choice=$(echo -e "Volume: $current_volume\n---------\nVolume-up: +10%\nVolume-down: -10%\nMute/Unmute\n----------\nExit"| rofi -dmenu -i -p "Gestione Volume")
 
     case "$choice" in
         "Volume-up: +10%")
-            pactl set-sink-volume @DEFAULT_SINK@ +10%
+            if [ "$numeric_volume" -lt 100 ]; then
+                increase=$((100 - numeric_volume))
+                if [ "$increase" -gt 10 ]; then
+                    pactl set-sink-volume @DEFAULT_SINK@ +10%
+                else
+                    pactl set-sink-volume @DEFAULT_SINK@ +"$increase"%
+                fi
+            fi
             ;;
         "Volume-down: -10%")
             pactl set-sink-volume @DEFAULT_SINK@ -10%
