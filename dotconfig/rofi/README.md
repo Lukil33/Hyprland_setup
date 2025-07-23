@@ -1,4 +1,4 @@
-I seguenti moduli custom sono stati in parte programmati da me (Battery e Volume) e in parte sono stati presi online (Bluetooth). 
+I seguenti moduli custom sono stati in parte programmati da me (Battery, Brightness, Volume) e in parte sono stati presi online (Bluetooth). 
 
 Al fine di riuscire ad utilizzare i seguenti moduli è necessario utilizzare il comando "chmod +x rofi-nome_del_modulo", per fare in modo di renderlo un eseguibile.
 

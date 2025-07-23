@@ -4,7 +4,7 @@
     "position": "top", // Waybar position (top|bottom|left|right)
     //"height": 20, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
-    "spacing": 5, // Gaps between modules (4px)
+    "spacing": 6, // Gaps between modules (4px)
     "margin-left": 0,
     "margin-right": 0,
 
@@ -21,7 +21,8 @@
         "hyprland/workspaces"
     ],
     "modules-right": [
-	    "group/hardware",
+        "group/hardware",
+        
         "pulseaudio",
         "bluetooth",
         "network",
@@ -34,9 +35,9 @@
         "orientation": "horizontal",
         "modules": [
             "custom/expand",
-            "memory",
             "cpu",
-            "temperature"
+            "memory",
+            "backlight"
 	    ]
     }
 }
