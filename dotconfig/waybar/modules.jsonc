@@ -13,7 +13,7 @@
     "clock": {
         "format": "{:%H:%M %a}",
         "timezone": "Europe/Rome",
-	    "on-click": "gnome-calendar"
+	    "on-click": "kitty -e calcurse"
     },
 
     // Custom update
@@ -108,7 +108,8 @@
     // Bluetooth
     "bluetooth": {
         "format": "󰂯",
-        "format-disabled": "󰂲" ,
+        "format-connected": "󰂱",
+        "format-disabled": "󰂲",
         "tooltip": false,
         "interval": 30,
         "on-click": "~/.config/rofi/Bluetooth/rofi-bluetooth"
