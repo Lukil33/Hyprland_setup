@@ -21,23 +21,13 @@
         "hyprland/workspaces"
     ],
     "modules-right": [
-        "group/hardware",
-        
+        "cpu",
+        "memory",
+        "backlight",
         "pulseaudio",
         "bluetooth",
         "network",
         "battery",
         "custom/exit"
-    ],
-
-    // Group_hardware
-    "group/hardware": {
-        "orientation": "horizontal",
-        "modules": [
-            "custom/expand",
-            "cpu",
-            "memory",
-            "backlight"
-	    ]
-    }
+    ]
 }

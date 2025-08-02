@@ -43,46 +43,27 @@
 
     //Destra
 
-    // Custom expand
-    "custom/expand": {
-        "format": "",
-        "tooltip": false
-    },
     // CPU
     "cpu": {
 	    "format": "",
         "tooltip": false,
         "on-click": "kitty -e btop"
     },
+
     //Memory
     "memory": {
-        "format": " ",
+        "format": "",
         "tooltip": false,
         "on-click": "baobab"
     },
+    
     //Brightness
     "backlight": {
         "device": "intel_backlight",
-        "format": "{icon} ",
+        "format": "{icon}",
         "format-icons": ["󰃞","󰃟","󰃠"],
         "tooltip": false,
         "on-click": "~/.config/rofi/Brightness/rofi-brightness"
-    },
-
-    // Group Hardware
-    "group/hardware": {
-        "orientation": "horizontal",
-        "drawer": {
-            "transition-duration": 600,
-            "transition-to-left": true,
-            "click-to-reveal": true
-        },
-	    "modules": [
-            "custom/expand",
-            "cpu",
-            "memory",
-            "pulseaudio"
-        ]
     },
 
     //Pulseaudio
@@ -133,9 +114,9 @@
             "critical": 10
         },
 	    "interval": 30,
-	    "format": "{icon} ",
-        "format-charging": " ",
-        "format-plugged": " ",
+	    "format": "{icon}",
+        "format-charging": "",
+        "format-plugged": "",
 	    "tooltip": false,
         "format-icons": ["󰂎","󰁺","󰁻","󰁼","󰁽","󰁾","󰁿","󰂀","󰂁","󰂂","󰁹"],
         "on-click": "~/.config/rofi/Battery/rofi-battery"
