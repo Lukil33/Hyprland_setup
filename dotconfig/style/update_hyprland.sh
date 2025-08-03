@@ -1,7 +1,4 @@
-#!/bin/bash
-
-# Applica PyWal allo sfondo selezionato
-wal -i "$1"
+# === GENERA FILE COLOR PER HYPRLAND ===
 
 # Percorsi
 WAL_COLORS="$HOME/.cache/wal/colors"
@@ -28,7 +25,3 @@ hex_to_rgba() {
     echo "\$color$i = $rgba"
   done
 } > "$HYPR_COLORS"
-
-# Ricarica Hyprland e Waybar
-hyprctl reload
-pkill waybar && waybar &
