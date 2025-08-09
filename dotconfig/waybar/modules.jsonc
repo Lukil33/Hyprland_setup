@@ -13,7 +13,8 @@
     "clock": {
         "format": "{:%H:%M %a}",
         "timezone": "Europe/Rome",
-	    "on-click": "kitty -e calcurse"
+	    "on-click": "kitty -e calcurse",
+        "tooltip": false
     },
 
     // Custom update

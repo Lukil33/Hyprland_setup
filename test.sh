@@ -1,1 +1,0 @@
-/home/lukil/palle.sh
