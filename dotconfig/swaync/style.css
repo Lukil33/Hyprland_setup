@@ -32,26 +32,22 @@
     opacity: 1;
     background: @bg;
 }
-
 .notification-row {
     outline: none;
-    margin: 20px;
+    margin: 10px;
     padding: 0;
 }
-
 .notification {
     background: transparent;
     margin: 0px;
 }
-
 .notification-content {
     background: @bg;
     padding: 7px;
-    border-radius: 0px;
-    border: 2px solid @color1;
+    border-radius: 5px;
+    border: 1px solid @color2;
     margin: 0;
 }
-
 .close-button:hover,
 .close-button {
     background: @bg;
@@ -62,29 +58,25 @@
     margin-top: 5px;
     margin-right: 5px;
 }
-
 .notification-default-action:hover,
 .notification-action:hover,
 .notification-action {
     color: @color7;
-    border: 2px solid @color1;
+    border: 2px solid @color2;
     border-top: none;
-    border-radius: 0px;
-    background: @color1;
+    border-radius: 5px;
+    background: @color2;
 }
-
 .summary {
     padding-top: 7px;
     font-size: 13px;
     color: @color2;
 }
-
 .time {
     font-size: 11px;
     color: @color7;
     margin-right: 24px;
 }
-
 .body {
     font-size: 12px;
     color: @color7;
@@ -93,22 +85,18 @@
 /* Control center styling */
 .control-center {
     background: @bg;
-    border: 2px solid @color1;
-    border-radius: 0px;
+    border: 2px solid @color2;
+    border-radius: 5px;
 }
-
 .control-center-list {
     background: transparent;
 }
-
 .control-center-list-placeholder {
     opacity: .5;
 }
-
 .floating-notifications {
     background: transparent;
 }
-
 .blank-window {
     background: alpha(black, 0.1);
 }
@@ -165,9 +153,16 @@
     padding: 0px 0px 0px 0px;
     margin: 0px 10px 0px 10px;
 }
-.widget-mpris > box > button {
-    color: #ffffff;
-    background: #000000;
+.widget-mpris button {
+    color: @color2;
+    background: @bg;
+    border: 1px solid @color2;
+    border-radius: 5px;
+}
+.widget-mpris button:hover {
+    color: @bg;
+    background: @color2;
+    border: 1px solid @color2;
     border-radius: 5px;
 }
 .widget-mpris-player {
@@ -175,6 +170,7 @@
     margin: 10px;
 }
 .widget-mpris-title {
+    color: @color2;
     font-weight: 700;
     font-size: 1.25rem;
 }
@@ -185,13 +181,20 @@
 .widget-volume,
 .widget-backlight {
     color: @color7;
+    padding: 5px;
+    margin: 0px 5px 0px 15px;
     background-color: @bg;
+}
+.widget-volume label{
+    font-size: 20px;
+}
+.widget-backlight label {
+    font-size: 17px;
 }
 .widget-backlight scale trough,
 .widget-volume scale trough{
-    color: @color2;
-    border: 1px solid @color2;
     background-color: @bg;
+    border: 1px solid @color7;
 }
 .widget-backlight scale trough highlight,
 .widget-volume scale trough highlight{
@@ -202,8 +205,6 @@
 .widget-buttons-grid {
     font-size: x-large;
     padding: 5px;
-    margin: 5px 10px 10px 10px;
-    border-radius: 5px;
     background: @bg;
 }
 .widget-buttons-grid > flowbox > flowboxchild > button {
@@ -212,6 +213,9 @@
     color: @color2;
     border: 1px solid @color2;
     border-radius: 5px;
+}
+.widget-buttons-grid > flowbox > flowboxchild > button label {
+    font-size: 14px;
 }
 .widget-buttons-grid > flowbox > flowboxchild > button:hover {
     background: @color2;
