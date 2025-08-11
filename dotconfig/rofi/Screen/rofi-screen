@@ -1,0 +1,46 @@
+PHOTO_DIR="$HOME/Pictures/Screenshots"
+VIDEO_DIR="$HOME/Videos/Recordings"
+mkdir -p "$PHOTO_DIR"
+mkdir -p "$VIDEO_DIR"
+
+# Menu Rofi
+    if pgrep wf-recorder > /dev/null; then
+        RECORD_OPTION="Ferma registrazione"
+    else
+        RECORD_OPTION="Avvia registrazione area\nAvvia registrazione intera"
+    fi
+
+    choice=$(echo -e "Screenshot area selezionata\nScreenshot intero\n$RECORD_OPTION\n---------\nExit"| rofi -dmenu -i -p "Gestione Schermo")
+
+    case "$choice" in
+        "Screenshot area selezionata")
+            FILE="$PHOTO_DIR/screenshot_$(date).png"
+            grim -g "$(slurp)" "$FILE"
+            notify-send "Screenshot salvato come $FILE"
+            ;;
+        "Screenshot intero")
+            FILE="$PHOTO_DIR/screenshot_$(date +"%Y-%m-%d_%H-%M-%S").png"
+            grim "$FILE"
+            notify-send "Screenshot salvato come $FILE"
+            ;;
+        "Avvia registrazione area")
+            FILE="$VIDEO_DIR/recording_$(date +"%Y-%m-%d_%H-%M-%S").mp4"
+            echo "$FILE" > /tmp/hypr_recording
+            wf-recorder -g "$(slurp)" -f "$FILE" &
+            notify-send "Registrazione iniziata"
+            ;;
+        "Avvia registrazione intera")
+            FILE="$VIDEO_DIR/recording_$(date +"%Y-%m-%d_%H-%M-%S").mp4"
+            echo "$FILE" > /tmp/hypr_recording
+            wf-recorder -f "$FILE" &
+            notify-send "Registrazione iniziata"
+            ;;
+        "Ferma registrazione")
+            pkill -INT wf-recorder
+            FILE=$(cat /tmp/hypr_recording 2>/dev/null)
+            notify-send "Registrazione salvata come $FILE"
+            ;;
+        *)
+            exit 0
+            ;;
+    esac
