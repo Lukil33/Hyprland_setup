@@ -63,6 +63,10 @@
                     "command": "bash -c 'swaync-client -C; '"
                 },
                 {
+                    "label": "",
+                    "command": "bash -c 'swaync-client -C; '"
+                },
+                {
                     "label": "󰃟",
                     "command": "bash -c 'swaync-client -C; /home/lukil/.config/rofi/Brightness/rofi-brightness'"
                 },
