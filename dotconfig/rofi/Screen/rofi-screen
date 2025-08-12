@@ -2,6 +2,7 @@ PHOTO_DIR="$HOME/Pictures/Screenshots"
 VIDEO_DIR="$HOME/Videos/Recordings"
 mkdir -p "$PHOTO_DIR"
 mkdir -p "$VIDEO_DIR"
+NUM_MONITOR=$(hyprctl monitors | grep -c "Monitor")
 
 # Menu Rofi
     if pgrep wf-recorder > /dev/null; then
@@ -9,6 +10,11 @@ mkdir -p "$VIDEO_DIR"
     else
         RECORD_OPTION="Avvia registrazione area\nAvvia registrazione intera"
     fi
+
+    # Funzione per selezione monitor
+    select_monitor() {
+        hyprctl monitors | grep "Monitor" | awk '{print $2}' | rofi -dmenu -i -p "Seleziona Monitor"
+    }
 
     choice=$(echo -e "Screenshot area selezionata\nScreenshot intero\n$RECORD_OPTION\n---------\nExit"| rofi -dmenu -i -p "Gestione Schermo")
 
@@ -19,8 +25,14 @@ mkdir -p "$VIDEO_DIR"
             notify-send "Screenshot salvato come $FILE"
             ;;
         "Screenshot intero")
+            if [ "$NUM_MONITOR" -gt 1 ]; then
+                MONITOR=$(select_monitor)
+            else
+                MONITOR=$(hyprctl monitors | grep "Monitor" | awk '{print $2}')
+            fi
+            [ -z "$MONITOR" ] && exit 0
             FILE="$PHOTO_DIR/screenshot_$(date +"%Y-%m-%d_%H-%M-%S").png"
-            grim "$FILE"
+            grim -o "$MONITOR" "$FILE"
             notify-send "Screenshot salvato come $FILE"
             ;;
         "Avvia registrazione area")
@@ -30,9 +42,15 @@ mkdir -p "$VIDEO_DIR"
             notify-send "Registrazione iniziata"
             ;;
         "Avvia registrazione intera")
+            if [ "$NUM_MONITOR" -gt 1 ]; then
+                MONITOR=$(select_monitor)
+            else
+                MONITOR=$(hyprctl monitors | grep "Monitor" | awk '{print $2}')
+            fi
+            [ -z "$MONITOR" ] && exit 0
             FILE="$VIDEO_DIR/recording_$(date +"%Y-%m-%d_%H-%M-%S").mp4"
             echo "$FILE" > /tmp/hypr_recording
-            wf-recorder -f "$FILE" &
+            wf-recorder -o "$MONITOR" -f "$FILE" &
             notify-send "Registrazione iniziata"
             ;;
         "Ferma registrazione")
