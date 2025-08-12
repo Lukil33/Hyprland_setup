@@ -80,7 +80,7 @@
                 },
                 {
                     "label": "󰖩",
-                    "command": "bash -c 'swaync-client -C; '"
+                    "command": "bash -c 'swaync-client -C; /home/lukil/.config/rofi/Network/rofi-network'"
                 },
                 {
                     "label": "󰁿",

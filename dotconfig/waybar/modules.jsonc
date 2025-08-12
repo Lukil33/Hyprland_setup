@@ -102,9 +102,10 @@
         "format-wifi": "",
         "format-ethernet": "",
         "format-disconnected": "",
+        "format-disabled": "󰀝",
         "tooltip": false,
         "max-length": 50,
-        "on-click": "kitty -e nmtui"
+        "on-click": "~/.config/rofi/Network/rofi-network"
     },
 
     // Battery
