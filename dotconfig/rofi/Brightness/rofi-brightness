@@ -28,7 +28,7 @@ while true; do
     current_brightness=$(get_brightness)
 
     # Menu Rofi
-    choice=$(echo -e "Luminosità: $current_brightness\n---------\nBrightness-up: +10%\nBrightness-down: -10%\n----------\nExit" | rofi -dmenu -i -p "Gestione Luminosità")
+    choice=$(echo -e "Luminosità: $current_brightness\n--------------------\nBrightness-up: +10%\nBrightness-down: -10%\n--------------------\nExit" | rofi -dmenu -i -p "Gestione Luminosità")
 
     case "$choice" in
         "Brightness-up: +10%")

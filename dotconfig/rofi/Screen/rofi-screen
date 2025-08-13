@@ -16,7 +16,7 @@ NUM_MONITOR=$(hyprctl monitors | grep -c "Monitor")
         hyprctl monitors | grep "Monitor" | awk '{print $2}' | rofi -dmenu -i -p "Seleziona Monitor"
     }
 
-    choice=$(echo -e "Screenshot area selezionata\nScreenshot intero\n$RECORD_OPTION\n---------\nExit"| rofi -dmenu -i -p "Gestione Schermo")
+    choice=$(echo -e "Screenshot area selezionata\nScreenshot intero\n$RECORD_OPTION\n--------------------\nExit"| rofi -dmenu -i -p "Gestione Schermo")
 
     case "$choice" in
         "Screenshot area selezionata")
