@@ -21,10 +21,15 @@ case "$choice" in
             nmcli connection up "$ssid"
             $HOME/.config/rofi/Network/rofi-network
         else
-            # Altrimenti, chiedi la password e prova a connetterti
-            password=$(rofi -dmenu -p "Password per $ssid:" -password)
-            [[ -z "$password" ]] && exit 1
-            nmcli device wifi connect "$ssid" password "$password"
+            if [[ -z "$security" || "$security" == "--" ]]; then
+                # Rete aperta, nessuna password richiesta
+                nmcli device wifi connect "$ssid"
+            else
+                # Rete protetta, richiedi la password
+                password=$(rofi -dmenu -p "Password per $ssid:" -password)
+                [[ -z "$password" ]] && exit 1
+                nmcli device wifi connect "$ssid" password "$password"
+            fi
             $HOME/.config/rofi/Network/rofi-network
         fi
         ;;
