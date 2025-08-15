@@ -3,7 +3,7 @@
 # Stato attuale del Wi-Fi e connessione
 wifi_enabled=$(nmcli radio wifi)
 current_connection=$(nmcli -t -f NAME,DEVICE connection show --active | grep ":w" | cut -d: -f1)
-wifi_status=$( [ -n "$current_connection" ] && echo "Connected -> $current_connection" || echo "Disconnected" )
+wifi_status=$( [ -n "$current_connection" ] && echo "connected -> $current_connection" || echo "disconnected" )
 
 # Mostra il menu
 choice=$(echo -e "Wi-Fi: $wifi_enabled\nStatus: $wifi_status\n--------------------\nShow available networks\nOpen Network Manager\n--------------------\nExit" | rofi -dmenu -i -p "Gestione rete")
@@ -15,6 +15,13 @@ case "$choice" in
         ;;
     "Wi-Fi: disabled")
         nmcli radio wifi on
+        ;;
+    "Status: connected"*)
+        confirm=$(echo -e "No\nYes" | rofi -dmenu -i -p "Disconnettersi da $current_connection?")
+        if [[ "$confirm" == "Yes" ]]; then
+            nmcli connection down "$current_connection"
+        fi
+        $HOME/.config/rofi/Network/rofi-network
         ;;
     "Open Network Manager")
         kitty -e nmtui
