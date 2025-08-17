@@ -2,47 +2,86 @@
 
 # Esegui una scansione Wi-Fi aggiornata
 nmcli device wifi rescan &>/dev/null
-sleep 2
+sleep 1
 
-# Ottieni lista reti ordinate per segnale
-networks=$(nmcli -t -f SSID,SIGNAL device wifi list | grep -v "^:" | awk -F: '$1 != "" {print $1 "\t" $2}' | sort -k2 -nr | awk -F'\t' '!seen[$1]++ {printf "(%s%%) %s\n", $2, $1}')
+# Ottieni SSID attualmente connesso
+current_ssid=$(nmcli -t -f active,ssid dev wifi | awk -F: '$1 == "yes" {print $2; exit}')
 
-# Ottieni lista reti con SSID, segnale e sicurezza
-networks_raw=$(nmcli -t -f SSID,SIGNAL,SECURITY device wifi list | grep -v "^:")
+# Ottieni lista reti: SSID, segnale, sicurezza. tenendo conto di non mostrare duplicati
+networks_raw=$(nmcli -t -f SSID,SIGNAL,SECURITY device wifi list | grep -v '^:' | awk -F: '
+{
+    if ($1 != "" && (!($1 in seen) || $2 > seen[$1])) {
+        ssid = $1
+        seen[ssid] = $2
+        data[ssid] = $0
+    }
+}
+END {
+    for (s in data) print data[s]
+}')
+
+
+# Crea lista formattata con icone
+networks=$(echo "$networks_raw" | awk -F: -v current="$current_ssid" '
+function network_icon(signal){
+    if (signal >= 80) return "󰣺";
+    else if (signal >= 60) return "󰣸";
+    else if (signal >= 40) return "󰣶";
+    else if (signal >= 20) return "󰣴";
+    else return "󰣾";
+}
+{
+    ssid = $1;
+    signal = $2;
+    if (ssid != "") {
+        icon = network_icon(signal);
+        label = (ssid == current) ? "-> " ssid : ssid;
+        printf "%03d %s %s\n", signal, icon, label;
+    }
+}' | sort -nr | cut -d' ' -f2-)
 
 # Mostra la lista con rofi
 choice=$(echo -e "$networks\n--------------------\nBack\nExit" | rofi -dmenu -i -p "Selezione rete")
 
-# Gestione scelte
+# Gestione scelta
 case "$choice" in
-    "("*)
-        # Estrai il nome della rete
-        ssid=$(echo "$choice" | sed -E 's/^\([0-9]+%\) //')
-
-        # Trova le informazioni di sicurezza corrispondenti alla rete scelta
-        security=$(echo "$networks_raw" | awk -F: -v ssid="$ssid" '$1 == ssid {print ($3 == "" ? "--" : $3); exit}')
-
-        # Se è già configurata, connettiti direttamente
-        if nmcli connection show | grep -qw "$ssid"; then
-            nmcli connection up "$ssid"
-            $HOME/.config/rofi/Network/rofi-network
-        else
-            if [[ "$security" == "--" ]]; then
-                # Rete aperta, nessuna password richiesta
-                nmcli device wifi connect "$ssid"
-            else
-                # Rete protetta, richiedi la password
-                password=$(rofi -dmenu -p "Password per $ssid:" -password)
-                [[ -z "$password" ]] && exit 1
-                nmcli device wifi connect "$ssid" password "$password"
-            fi
-            $HOME/.config/rofi/Network/rofi-network
-        fi
-        ;;
     "Back")
-        $HOME/.config/rofi/Network/rofi-network
+        exec "$HOME/.config/rofi/Network/rofi-network"
+        ;;
+    "--------------------")
+        exit 0
+        ;;
+    "Exit")
+        exit 0
         ;;
     *)
-        exit 0
+        # Estrai SSID dalla riga selezionata (rimuovi icona + eventuale "-> ")
+        ssid=$(echo "$choice" | sed -E 's/^[^ ]+ //' | sed -E 's/^-> //')
+    
+        # Ottieni il tipo di sicurezza per la rete selezionata
+        security=$(echo "$networks_raw" | awk -F: -v ssid="$ssid" '$1 == ssid {print ($3 == "" ? "--" : $3); exit}')
+       
+        previous_ssid="$current_ssid"
+        
+        connect_to_network() {
+            if nmcli connection show | grep -Fxq "$ssid"; then 
+                nmcli connection up "$ssid"
+            else
+                if [[ "$security" == "--" ]]; then
+                    nmcli device wifi connect "$ssid"
+                else
+                    password=$(rofi -dmenu -p "Password per $ssid:" -password)
+                    [[ -z "$password" ]] && return 1
+                    nmcli device wifi connect "$ssid" password "$password"
+                fi
+            fi
+        }
+    
+        if ! connect_to_network; then
+            notify-send "Connessione fallita" "Impossibile connettersi a \"$ssid\""
+            [[ -n "$previous_ssid" ]] && nmcli connection up "$previous_ssid"
+        fi
+
+        exec "$HOME/.config/rofi/Network/rofi-network"
         ;;
 esac

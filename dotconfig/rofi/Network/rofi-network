@@ -15,6 +15,7 @@ case "$choice" in
         ;;
     "Wi-Fi: disabled")
         nmcli radio wifi on
+        $HOME/.config/rofi/Network/rofi-network
         ;;
     "Status: connected"*)
         confirm=$(echo -e "No\nYes" | rofi -dmenu -i -p "Disconnettersi da $current_connection?")
