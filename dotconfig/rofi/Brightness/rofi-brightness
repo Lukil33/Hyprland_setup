@@ -23,12 +23,22 @@ get_brightness() {
     echo "$percent% [$bar]"
 }
 
+# Funzione per controllare se wlsunset è attivo
+is_night_light_on() {
+    if pgrep -x "wlsunset" > /dev/null; then
+        echo "on"
+    else
+        echo "off"
+    fi
+}
+
 # Loop principale
 while true; do
     current_brightness=$(get_brightness)
+    night_light_status=$(is_night_light_on)
 
     # Menu Rofi
-    choice=$(echo -e "Luminosità: $current_brightness\n--------------------\nBrightness-up: +10%\nBrightness-down: -10%\n--------------------\nExit" | rofi -dmenu -i -p "Gestione Luminosità")
+    choice=$(echo -e "Luminosità: $current_brightness\nLuce notturna: $night_light_status\n--------------------\nBrightness-up: +10%\nBrightness-down: -10%\n--------------------\nExit" | rofi -dmenu -i -p "Gestione Luminosità")
 
     case "$choice" in
         "Brightness-up: +10%")
@@ -36,6 +46,14 @@ while true; do
             ;;
         "Brightness-down: -10%")
             brightnessctl set 10%-
+            ;;
+        "Luce notturna: $night_light_status")
+            if pgrep -x "wlsunset" > /dev/null; then
+                pkill "wlsunset"
+            else
+                # Trick ammetto molto brutto ma funzionante per poter avere una luce notturna che si attiva quando si vuole
+                wlsunset -t 3999 -T 4000 -d 0 -S 08:00 -s 17:59 > /dev/null 2>&1 &
+            fi
             ;;
         *)
             exit 0
