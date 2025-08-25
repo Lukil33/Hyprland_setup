@@ -22,7 +22,7 @@ NUM_MONITOR=$(hyprctl monitors | grep -c "Monitor")
         "Screenshot area selezionata")
             FILE="$PHOTO_DIR/screenshot_$(date).png"
             grim -g "$(slurp)" "$FILE"
-            notify-send "Screenshot salvato come $FILE"
+            notify-send "Screenshot salvato"
             ;;
         "Screenshot intero")
             if [ "$NUM_MONITOR" -gt 1 ]; then
@@ -33,7 +33,7 @@ NUM_MONITOR=$(hyprctl monitors | grep -c "Monitor")
             [ -z "$MONITOR" ] && exit 0
             FILE="$PHOTO_DIR/screenshot_$(date +"%Y-%m-%d_%H-%M-%S").png"
             grim -o "$MONITOR" "$FILE"
-            notify-send "Screenshot salvato come $FILE"
+            notify-send "Screenshot salvato"
             ;;
         "Avvia registrazione area")
             FILE="$VIDEO_DIR/recording_$(date +"%Y-%m-%d_%H-%M-%S").mp4"
@@ -56,7 +56,7 @@ NUM_MONITOR=$(hyprctl monitors | grep -c "Monitor")
         "Ferma registrazione")
             pkill -INT wf-recorder
             FILE=$(cat /tmp/hypr_recording 2>/dev/null)
-            notify-send "Registrazione salvata come $FILE"
+            notify-send "Registrazione salvata"
             ;;
         *)
             exit 0

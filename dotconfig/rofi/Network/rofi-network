@@ -15,21 +15,21 @@ case "$choice" in
         ;;
     "Wi-Fi: disabled")
         nmcli radio wifi on
-        $HOME/.config/rofi/Network/rofi-network
+        exec "$HOME/.config/rofi/Network/rofi-network" -config ~/.config/rofi/config.rasi
         ;;
     "Status: connected"*)
         confirm=$(echo -e "No\nYes" | rofi -dmenu -i -p "Disconnettersi da $current_connection?")
         if [[ "$confirm" == "Yes" ]]; then
             nmcli connection down "$current_connection"
         fi
-        $HOME/.config/rofi/Network/rofi-network
+        exec "$HOME/.config/rofi/Network/rofi-network" -config ~/.config/rofi/config.rasi
         ;;
     "Open Network Manager")
         kitty -e nmtui
         ;;
     "Show available networks")
         notify-send "Wi-Fi" "Scansione in corso..."
-        $HOME/.config/rofi/Network/rofi-show-network
+        exec "$HOME/.config/rofi/Network/rofi-show-network" -config ~/.config/rofi/config.rasi
         ;;
     *)
         exit 0

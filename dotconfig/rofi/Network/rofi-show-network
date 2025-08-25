@@ -41,10 +41,14 @@ function network_icon(signal){
 }' | sort -nr | cut -d' ' -f2-)
 
 # Mostra la lista con rofi
-choice=$(echo -e "$networks\n--------------------\nBack\nExit" | rofi -dmenu -i -p "Selezione rete")
+choice=$(echo -e "$networks\n--------------------\nReload\nBack\nExit" | rofi -dmenu -i -p "Selezione rete")
 
 # Gestione scelta
 case "$choice" in
+    "Reload")
+        notify-send "Wi-Fi" "Scansione in corso..."
+        exec "$HOME/.config/rofi/Network/rofi-show-network"
+        ;;
     "Back")
         exec "$HOME/.config/rofi/Network/rofi-network"
         ;;
@@ -76,7 +80,7 @@ case "$choice" in
         # Prova connessione salvata
         if connect_with_saved; then
             # Se la connessione ha successo -> torna allo script principale
-            exec "$HOME/.config/rofi/Network/rofi-network"
+            exec "$HOME/.config/rofi/Network/rofi-network" -config ~/.config/rofi/config.rasi
         else
             # Se la connessione fallisce -> elimina connessione salvata
             nmcli connection delete "$ssid" &>/dev/null
