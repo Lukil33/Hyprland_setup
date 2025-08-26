@@ -30,7 +30,7 @@ while true; do
     numeric_volume=$(pactl get-sink-volume @DEFAULT_SINK@ | grep -oP '\d{1,3}(?=%)' | head -1)
 
     # Menu Rofi
-    choice=$(echo -e "Volume: $current_volume\n--------------------\nVolume-up: +10%\nVolume-down: -10%\nMute/Unmute\n--------------------\nExit"| rofi -dmenu -i -p "Gestione Volume")
+    choice=$(echo -e "Volume: $current_volume\n--------------------\nVolume-up: +10%\nVolume-down: -10%\nMute/Unmute\n--------------------\nOpen Volume Manager\nExit"| rofi -dmenu -i -p "Gestione Volume")
 
     case "$choice" in
         "Volume-up: +10%")
@@ -48,6 +48,9 @@ while true; do
             ;;
         "Mute/Unmute")
             pactl set-sink-mute @DEFAULT_SINK@ toggle
+            ;;
+        "Open Volume Manager")
+            exec pavucontrol
             ;;
         *)
             exit 0

@@ -17,6 +17,23 @@ get_charge() {
     echo "$battery% [$bar]"
 }
 
+get_power_state() {
+    # Trova il dispositivo AC corretto
+    for supply in /sys/class/power_supply/AC* /sys/class/power_supply/ADP*; do
+        if [[ -e "$supply/online" ]]; then
+            online=$(cat "$supply/online")
+            if [[ "$online" == "1" ]]; then
+                echo "-> Charging"
+            else
+                echo ""
+            fi
+            return
+        fi
+    done
+    echo "Stato sconosciuto"
+}
+
+
 # Funzione per impostare il governor su tutti i core
 set_governor_all_cores() {
     GOV=$1
@@ -27,11 +44,12 @@ set_governor_all_cores() {
 
 # Loop principale
 while true; do
-    current_charge=$(get_charge)
+    CURRENT_CHARGE=$(get_charge)
+    CURRENT_STATE=$(get_power_state)
     CURRENT_GOVERNOR=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)
 
     # Menu Rofi
-    choice=$(echo -e "Batteria: $current_charge\nGovernor attuale: $CURRENT_GOVERNOR\n--------------------\nGovernor: Performance\nGovernor: Powersave\n--------------------\nExit"| rofi -dmenu -i -p "Gestione Energia")
+    choice=$(echo -e "Batteria: $CURRENT_CHARGE $CURRENT_STATE\nGovernor attuale: $CURRENT_GOVERNOR\n--------------------\nGovernor: Performance\nGovernor: Powersave\n--------------------\nExit"| rofi -dmenu -i -p "Gestione Energia")
     
     case "$choice" in
         "Governor: Performance")
