@@ -1,4 +1,4 @@
-# === GENERA FILE COLOR PER HYPRLAND ===
+# === GENERATE COLOR FILE FOR HYPRLAND ===
 
 # Percorsi
 WAL_COLORS="$HOME/.cache/wal/colors"
