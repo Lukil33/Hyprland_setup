@@ -1,0 +1,66 @@
+# === FILE PER MODIFICARE IL FILE DELLO STILE DI WLOGOUT ===
+
+COLORS="$HOME/.cache/wal/colors.css"
+STYLE_PATH="$HOME/.config/wlogout/style.css"
+
+# Controlla che il file esista
+if [ -f "$STYLE_PATH" ]; then
+    # Prendo il colore principale dello sfondo per utilizzarlo come colore del bordo
+    BORDER_COLOR=$(grep '\--color2' "$COLORS" | cut -d ':' -f2 | tr -d ' ;')
+
+cat > "$STYLE_PATH" <<EOF
+@define-color border $BORDER_COLOR;
+
+* {
+	background-image: none;
+	box-shadow: none;
+}
+
+window {
+	background-color: rgba(12, 12, 12, 0.9);
+    padding: 20px;
+}
+
+button {
+    color: #FFFFFF;
+	text-decoration-color: #FFFFFF;
+    border-color: transparent;
+    border-radius: 20px;
+	border-style: solid;
+	border-width: 4px;
+    background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 25%;
+}
+
+button:focus, button:active, button:hover {
+    border-color: @border;
+	outline-style: none;
+}
+
+#lock {
+    background-image: image(url("/usr/share/wlogout/icons/lock.png"), url("/usr/local/share/wlogout/icons/lock.png"));
+}
+
+#logout {
+    background-image: image(url("/usr/share/wlogout/icons/logout.png"), url("/usr/local/share/wlogout/icons/logout.png"));
+}
+
+#suspend {
+    background-image: image(url("/usr/share/wlogout/icons/suspend.png"), url("/usr/local/share/wlogout/icons/suspend.png"));
+}
+
+#hibernate {
+    background-image: image(url("/usr/share/wlogout/icons/hibernate.png"), url("/usr/local/share/wlogout/icons/hibernate.png"));
+}
+
+#shutdown {
+    background-image: image(url("/usr/share/wlogout/icons/shutdown.png"), url("/usr/local/share/wlogout/icons/shutdown.png"));
+}
+
+#reboot {
+    background-image: image(url("/usr/share/wlogout/icons/reboot.png"), url("/usr/local/share/wlogout/icons/reboot.png"));
+}
+EOF
+fi

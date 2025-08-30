@@ -26,6 +26,9 @@ $HOME/.config/style/script/update_hyprland.sh
 # Modifico il file style di SwayNC
 $HOME/.config/style/script/update_swaync.sh
 
+# Modifico il file style di Wlogout
+$HOME/.config/style/script/update_wlogout.sh
+
 # Rimuovi lo sfondo ativo
 pkill hyprpaper
 
