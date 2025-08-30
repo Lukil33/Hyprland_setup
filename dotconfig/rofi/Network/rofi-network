@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# === GESTORE RETI ROFI ===
 
 # Stato attuale del Wi-Fi e connessione
 wifi_enabled=$(nmcli radio wifi)

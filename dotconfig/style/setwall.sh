@@ -1,4 +1,4 @@
-#!/bin/bash
+# === FILE WRAPPER CHE CAMBIA LO SFONDO E APPLICA I RELATIVI TEMI ===
 
 # Numero di immagini fornite come argomento
 IMAGE_COUNT=$#

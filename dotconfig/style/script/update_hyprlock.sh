@@ -1,4 +1,4 @@
-# === UPDATE HYPRLOCK CONFIG FILE ===
+# === FILE CHE AGGIORNA HYPRLOCK ===
 
 # File da modificare
 CONFIG_FILE="$HOME/.config/hypr/hyprlock.conf"

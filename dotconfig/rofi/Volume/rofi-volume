@@ -1,4 +1,4 @@
-#!/bin/bash
+# === GESTORE VOLUME ROFI ===
 
 # Funzione per ottenere volume corrente
 get_volume() {

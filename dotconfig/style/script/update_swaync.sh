@@ -1,4 +1,4 @@
-# === UPDATE SWAYNC STYLE SHEET ===
+# === FILE PER MODIFICARE IL FILE DELLO STILE DI SWAYNC ===
 
 COLORS="$HOME/.cache/wal/colors.json"
 STYLE_PATH="$HOME/.config/swaync/style.css"

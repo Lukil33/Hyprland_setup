@@ -1,3 +1,4 @@
+# === GESTORE BATTERIA ROFI ===
 
 # Funzione per ottenere lo stato corrente della batteria
 get_charge() {

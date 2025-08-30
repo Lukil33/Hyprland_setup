@@ -1,4 +1,4 @@
-# === UPDATE HYPRLOCK CONFIG FILE ===
+# === FILE CHE AGGIORNA HYPRPAPER ===
 
 # File da modificare
 CONFIG_FILE="$HOME/.config/hypr/hyprpaper.conf"

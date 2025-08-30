@@ -1,4 +1,4 @@
-#!/bin/bash
+# === GESTORE LUMINOSITÀ ROFI ===
 
 # Funzione per ottenere luminosità corrente
 get_brightness() {
