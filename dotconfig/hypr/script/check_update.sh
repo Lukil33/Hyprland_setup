@@ -1,4 +1,4 @@
-#!/bin/bash
+# === CONTROLLO UTILIZZO DI UPDATE PER INATTIVITÀ ===
 
 PROCESSI=("dnf" "dnf5" "rpm" "packagekitd" "pkcon" "flatpak" "snap" "pip3")
 LOCK_FILE="/var/cache/dnf/metadata_lock.pid"
