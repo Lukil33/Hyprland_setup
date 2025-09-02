@@ -2,7 +2,7 @@
 
 # Dispositivo batteria (adatta se necessario)
 BAT="/sys/class/power_supply/BAT0"
-PREV_STATE=""
+PREV_STATE="Discharging"
 PREV_LEVEL=100
 
 while true; do
