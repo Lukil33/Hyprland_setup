@@ -1,6 +1,6 @@
 # === GESTORE WIFI ROFI ===
 
-# Esegui una scansione Wi-Fi aggiornata
+# Aggiorna lista Wi-Fi
 nmcli device wifi rescan &>/dev/null
 sleep 1
 
@@ -10,16 +10,14 @@ current_ssid=$(nmcli -t -f active,ssid dev wifi | awk -F: '$1 == "yes" {print $2
 # Ottieni lista reti: SSID, segnale, sicurezza. tenendo conto di non mostrare duplicati
 networks_raw=$(nmcli -t -f SSID,SIGNAL,SECURITY device wifi list | grep -v '^:' | awk -F: '
 {
-    if ($1 != "" && (!($1 in seen) || $2 > seen[$1])) {
-        ssid = $1
-        seen[ssid] = $2
-        data[ssid] = $0
+    if($1 != "" && (!($1 in seen) || $2 > seen[$1])){
+        seen[$1] = $2
+        data[$1] = $0
     }
 }
 END {
-    for (s in data) print data[s]
+    for(s in data) print data[s]
 }')
-
 
 # Crea lista formattata con icone
 networks=$(echo "$networks_raw" | awk -F: -v current="$current_ssid" '
@@ -44,31 +42,31 @@ function network_icon(signal,pwd){
     pwd = $3;
     if (ssid != "") {
         icon = network_icon(signal,pwd);
-        label = (ssid == current) ? "-> " ssid : ssid;
-        printf "%03d %s %s\n", signal, icon, label;
+        label = (ssid == current) ? " "icon : "     "icon;
+        printf "%03d %s %s\n", signal, label, ssid;
     }
 }' | sort -nr | cut -d' ' -f2-)
 
 # Mostra la lista con rofi
-choice=$(echo -e "$networks\n--------------------\nReload\nBack\nExit" | rofi -dmenu -i -p "Selezione rete")
+choice=$(echo -e "$networks\n--------------------\nReload\nBack\nExit" | rofi -dmenu -i -p "Selezione rete Wi-Fi")
 
 # Gestione scelta
 case "$choice" in
     "Reload")
         notify-send "Wi-Fi" "Scansione in corso..."
-        exec "$HOME/.config/rofi/Network/rofi-show-network"
+        exec "$HOME/.config/rofi/Network/rofi-show-wifi-network"
         ;;
     "Back")
         exec "$HOME/.config/rofi/Network/rofi-network"
         ;;
     *)
-        if [[ "$choice" =~ ^[󰤨󰤥󰤢󰤟󰤯󰤪󰤧󰤤󰤡󰤬] ]]; then
-            # Estrai SSID dalla riga selezionata (rimuovi icona + eventuale "-> ")
-            ssid=$(echo "$choice" | sed -E 's/^[^ ]+ //' | sed -E 's/^-> //')
-        
+        if [[ "$choice" =~ [󰤨󰤥󰤢󰤟󰤯󰤪󰤧󰤤󰤡󰤬] ]]; then
+            # Estrai SSID dalla riga selezionata (rimuovi eventuale freccia + icona)
+            ssid=$(echo "$choice" | sed -E 's/^+ //' | sed -E 's/     //' | sed -E 's/^[^ ]+ //')
+
             # Ottieni il tipo di sicurezza per la rete selezionata
             security=$(echo "$networks_raw" | awk -F: -v ssid="$ssid" '$1 == ssid {print ($3 == "" ? "--" : $3); exit}')
-        
+
             previous_ssid="$current_ssid"
 
             connect_with_saved() {

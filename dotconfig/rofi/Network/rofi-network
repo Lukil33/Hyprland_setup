@@ -1,9 +1,32 @@
 # === GESTORE RETI ROFI ===
 
-# Stato attuale del Wi-Fi e connessione
+# Stato attuale del Wi-Fi
 wifi_enabled=$(nmcli radio wifi)
-current_connection=$(nmcli -t -f NAME,DEVICE connection show --active | grep ":w" | cut -d: -f1)
-wifi_status=$( [ -n "$current_connection" ] && echo "connected -> $current_connection" || echo "disconnected" )
+
+# Ottieni la connessione attiva con nome e tipo
+# Ottieni connessione attiva ignorando loopback/VPN
+active_connection_info=$(nmcli -t -f NAME,TYPE,DEVICE connection show --active | grep -E ":802-.*|:wifi|:ethernet:" | head -n 1)
+
+if [ -n "$active_connection_info" ]; then
+    current_connection=$(echo "$active_connection_info" | cut -d: -f1)
+    connection_type=$(echo "$active_connection_info" | cut -d: -f2)
+
+    case "$connection_type" in
+        *ethernet*)
+            conn_method="(LAN)"
+            ;;
+        *wifi* | *wireless*)
+            conn_method="(Wi-Fi)"
+            ;;
+        *)
+            conn_method="($connection_type)"
+            ;;
+    esac
+
+    wifi_status=" $current_connection $conn_method"
+else
+    wifi_status="disconnected"
+fi
 
 # Mostra il menu
 choice=$(echo -e "Wi-Fi: $wifi_enabled\nStatus: $wifi_status\n--------------------\nShow available networks\nOpen Network Manager\n--------------------\nExit" | rofi -dmenu -i -p "Gestione rete")
@@ -15,21 +38,42 @@ case "$choice" in
         ;;
     "Wi-Fi: disabled")
         nmcli radio wifi on
-        exec "$HOME/.config/rofi/Network/rofi-network" -config ~/.config/rofi/config.rasi
+        exec "$HOME/.config/rofi/Network/rofi-network"
         ;;
-    "Status: connected"*)
+    "Status:  "*)
         confirm=$(echo -e "No\nYes" | rofi -dmenu -i -p "Disconnettersi da $current_connection?")
         if [[ "$confirm" == "Yes" ]]; then
             nmcli connection down "$current_connection"
         fi
-        exec "$HOME/.config/rofi/Network/rofi-network" -config ~/.config/rofi/config.rasi
+        exec "$HOME/.config/rofi/Network/rofi-network"
         ;;
     "Open Network Manager")
         kitty -e nmtui
         ;;
     "Show available networks")
-        notify-send "Wi-Fi" "Scansione in corso..."
-        exec "$HOME/.config/rofi/Network/rofi-show-network" -config ~/.config/rofi/config.rasi
+        # Verifica se esiste almeno un'interfaccia LAN disponibile
+        lan_available=$(nmcli -t -f DEVICE,TYPE,STATE device status | grep "^.*:ethernet:" | grep -v ":unavailable")
+
+        # Se esiste costruisci il sottomenu, altrimenti avvia direttamente il modulo wifi
+        if [ -n "$lan_available" ]; then
+            net_choice=$(echo -e "Wi-Fi\nLAN" | rofi -dmenu -i -p "Scegli rete")
+        else
+            net_choice="Wi-Fi"
+        fi
+
+        # avvia l'interfaccia selezionata
+        case "$net_choice" in
+            "Wi-Fi")
+                notify-send "Reti Wi-Fi" "Scansione in corso..."
+                exec "$HOME/.config/rofi/Network/rofi-show-wifi-network"
+                ;;
+            "LAN")
+                exec "$HOME/.config/rofi/Network/rofi-show-lan-network"
+                ;;
+            *)
+                exit 0
+                ;;
+        esac
         ;;
     *)
         exit 0

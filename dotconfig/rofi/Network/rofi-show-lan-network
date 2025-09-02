@@ -1,0 +1,62 @@
+
+# === GESTORE LAN ROFI ===
+
+# Stato generico dei vari device
+lan_status=$(nmcli -t -f DEVICE,STATE device status | grep ":")
+
+# Trova l'interfaccia attiva
+active_lan=$(nmcli -t -f DEVICE,STATE device status | grep ":connected" | cut -d: -f1 | head -n 1)
+
+networks=""
+# Per ogni porta eternet del dispositivo
+for dev in $(nmcli -t -f DEVICE,TYPE device status | grep ":ethernet" | cut -d: -f1); do
+
+    if [[ "$networks" != "" ]]; then
+        networks+="\n"
+    fi
+
+    state=$(echo "$lan_status" | grep "^$dev:" | cut -d: -f2)
+
+    # icona per stato
+    case "$state" in
+        connected|connecting|full|disconnected)
+            icon="󰣺"
+            ;;
+        *)
+            icon="󰣽"
+            ;;
+    esac
+
+    # freccia se attivo
+    if [[ "$dev" == "$active_lan" ]]; then
+        networks+=" $icon $dev"
+    else
+        networks+="     $icon $dev"
+    fi
+done
+
+# Mostra la lista
+choice=$(echo -e "$networks\n--------------------\nReload\nBack\nExit" | rofi -dmenu -i -p "Selezione LAN")
+
+# Gestione scelta
+case "$choice" in
+    "Reload")
+        exec "$HOME/.config/rofi/Network/rofi-show-lan-network"
+        ;;
+    "Back")
+        exec "$HOME/.config/rofi/Network/rofi-network"
+        ;;
+    "Exit")
+        exit 0
+        ;;
+    *)
+        selected_dev=$(echo "$choice"  | sed -E 's/^+ //' | sed -E 's/     //' | sed -E 's/^[^ ]+ //')
+
+        if [[ -n "$selected_dev" ]]; then
+            nmcli device connect "$selected_dev"
+            exec "$HOME/.config/rofi/Network/rofi-show-lan-network"
+        else
+            exit 0
+        fi
+        ;;
+esac
