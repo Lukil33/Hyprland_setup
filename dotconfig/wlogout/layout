@@ -1,6 +1,6 @@
 {
     "label" : "lock",
-    "action" : "hyprlock",
+    "action" : "/home/lukil/.config/hypr/script/lock.sh",
     "text" : "Lock"
 }
 {

@@ -99,7 +99,6 @@
 
     // Network
     "network": {
-        "interface": "wlo1",
         "format-wifi": "󰤥",
         "format-ethernet": "",
         "format-disconnected": "󰤮",

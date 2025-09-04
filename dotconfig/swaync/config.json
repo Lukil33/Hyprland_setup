@@ -88,7 +88,7 @@
                 },
                 {
                     "label": "󰌾",
-                    "command": "hyprlock"
+                    "command": "/home/lukil/.config/hypr/script/lock.sh"
                 },
                 {
                     "label": "󰤄",
