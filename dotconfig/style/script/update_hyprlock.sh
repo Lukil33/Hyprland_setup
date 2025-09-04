@@ -7,10 +7,10 @@ CONFIG_FILE="$HOME/.config/hypr/hyprlock.conf"
 IMAGE_COUNT=$#
 
 # Pulisci la configurazione precedente e aggiungi la prima parte del file
-cat > "$CONFIG_FILE" <<EOF
+cat > "$CONFIG_FILE" <<'EOF'
 #COLORI
-\$foreground = rgba(255, 255, 255, 1.0)
-\$background = rgba(0, 0, 0, 1.0)
+$foreground = rgba(255, 255, 255, 1.0)
+$background = rgba(0, 0, 0, 1.0)
 
 # IMPOSTAZIONI GENERALI
 general {
@@ -33,12 +33,12 @@ elif [ "$IMAGE_COUNT" -eq 2 ]; then
 fi
 
 #inserisci la restante parte del config file
-cat >> "$CONFIG_FILE" <<EOF
+cat >> "$CONFIG_FILE" <<'EOF'
 # ORA - in grande, centrata in alto
 label {
     monitor = 
     text = cmd[update:1000] date +"%H:%M"
-    color = \$foreground
+    color = $foreground
     font_size = 63
     font_family = Fira Semibold
     position = 0,-170
@@ -52,7 +52,7 @@ label {
 label {
     monitor = 
     text = cmd[update:60000] date +"%A %d %B %Y"
-    color = \$foreground
+    color = $foreground
     font_size = 15
     font_family = Fira Semibold
     position = 0,-280
@@ -70,10 +70,10 @@ input-field {
     dots_spacing = 0.15
     dots_center = true
     dots_rounding = -1
-    inner_color = \$foreground
-    font_color = \$background
+    inner_color = $foreground
+    font_color = $background
     font_family = Fira Semibold
-    outer_color = \$foreground
+    outer_color = $foreground
     outline_thickness = 1
     fade_on_empty = true
     fade_timeout = 1500
@@ -82,9 +82,9 @@ input-field {
     hide_input = false
     rounding = 10
 
-    check_color = \$foreground
-    fail_color = \$background
-    fail_text = <i>\$FAIL</i>
+    check_color = $foreground
+    fail_color = $background
+    fail_text = <i>$FAIL</i>
     #fail_timeout = 5000 -> per la versione che sto utilizzando attualmente di hyprlock questo comando non funziona a prescindere perchè in realtà il tempo di fail è hardcodato quindi... stacce
 
     capslock_color = -1
@@ -101,8 +101,8 @@ input-field {
 # CAPS LOCK WARNING - piccolo, centrale sotto all'input line
 label {
     monitor =
-    text = cmd[update:200] bash -c 'if [ "\$(cat /sys/class/leds/input*::capslock/brightness)" -eq 1 ]; then echo "Caps Lock attivo"; else echo ""; fi'
-    color = \$foreground
+    text = cmd[update:200] bash -c 'if [ "$(cat /sys/class/leds/input*::capslock/brightness | head -n 1)" -eq 1 ]; then echo "Caps Lock attivo"; else echo ""; fi'
+    color = $foreground
     font_size = 10
     font_family = Fira Semibold
     position = 0, -40
@@ -115,8 +115,8 @@ label {
 # NOME UTENTE - in piccolo, in basso al centro
 label {
     monitor =
-    text = \$USER
-    color = \$foreground
+    text = $USER
+    color = $foreground
     font_size = 20
     font_family = Fira Semibold
     position = 0,40
