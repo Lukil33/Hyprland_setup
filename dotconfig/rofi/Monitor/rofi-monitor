@@ -1,0 +1,52 @@
+# === GESTORE MONITOR ROFI ===
+
+# Prendi tutti i monitor attivi
+monitors=($(hyprctl monitors | grep "Monitor" | grep -v "disabled" | awk '{print $2}'))
+
+# Ordina manualmente: eDP-1 per primo
+sorted_monitors=()
+
+# Prima eDP-1 se presente
+for m in "${monitors[@]}"; do
+    if [[ "$m" == "eDP-1" ]]; then
+        sorted_monitors+=("$m")
+    fi
+done
+
+# Poi gli altri
+for m in "${monitors[@]}"; do
+    if [[ "$m" != "eDP-1" ]]; then
+        sorted_monitors+=("$m")
+    fi
+done
+
+# Conta e mostra
+count=${#sorted_monitors[@]}
+
+if (( count == 1 )); then
+    result="Main monitor: ${sorted_monitors[0]}"
+elif (( count == 2 )); then
+    result="Main monitor: ${sorted_monitors[0]} | Secondary monitor: ${sorted_monitors[1]}"
+else
+    result="Monitor collegati: ${sorted_monitors[*]}"
+fi
+
+# Mostra il menu
+choice=$(echo -e "$result\n--------------------\nReload Configuration\nMirror main monitor\nExtend main monitor\n--------------------\nExit" | rofi -dmenu -i -p "Gestione Monitor")
+
+# Gestione scelte
+case "$choice" in
+    "Reload Configuration")
+        notify-send "Monitor" "Reload"
+        exec "$HOME/.config/rofi/Monitor/rofi-reload-monitor"
+        ;;
+    "Mirror main monitor")
+        notify-send "Monitor" "Internal monitor mirroring"
+        ;;
+    "Extend main monitor")
+        notify-send "Monitor" "Internal monitor extended"
+        ;;
+    *)
+        exit 0
+        ;;
+esac

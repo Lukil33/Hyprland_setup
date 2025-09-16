@@ -1,0 +1,21 @@
+# === GESTIONE MONITOR ESTERNO PER SPEGNIMENTO SCHERMO PRICIPALE ===
+
+# Nomi monitor - cambiali se necessario
+INTERNAL="eDP-1"
+
+# Funzione per leggere lo stato del coperchio
+lid_closed() {
+    grep -q closed /proc/acpi/button/lid/LID*/state
+}
+
+# Funzione per verificare se il monitor esterno è collegato
+external_connected() {
+    hyprctl monitors | grep "Monitor" | grep -v "$INTERNAL"
+}
+
+if lid_closed && external_connected; then # Se il coperchio viene chiuso
+    hyprctl keyword monitor "$INTERNAL,disable" # Disabilita il primo schermo
+else # Se il coperchio viene aperto riattiva lo schermo eDP-1
+    hyprctl keyword monitor "eDP-1,preferred,auto,1"
+    hyprctl reload
+fi
