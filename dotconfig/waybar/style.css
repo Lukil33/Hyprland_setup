@@ -32,7 +32,7 @@ window#waybar{
 #clock:hover,
 #custom-update:hover,
 #cpu:hover,
-#memory:hover,
+#custom-monitor:hover,
 #backlight:hover,
 #pulseaudio:hover,
 #bluetooth:hover,
@@ -73,7 +73,7 @@ window#waybar{
     transition: all .3s ease;
     color:@color7;
 }
-#memory,
+#custom-monitor,
 #backlight,
 #pulseaudio,
 #bluetooth,

@@ -64,7 +64,7 @@
                 },
                 {
                     "label": "",
-                    "command": "bash -c 'swaync-client -C; '"
+                    "command": "bash -c 'swaync-client -C; /home/lukil/.config/rofi/Monitor/rofi-monitor'"
                 },
                 {
                     "label": "󰃟",

@@ -1,5 +1,7 @@
 # === GESTIONE MONITOR ESTERNO PER SPEGNIMENTO SCHERMO PRICIPALE ===
 
+notify-send "Monitor" "Monitor interface reloaded"
+
 # Nomi monitor - cambiali se necessario
 INTERNAL="eDP-1"
 

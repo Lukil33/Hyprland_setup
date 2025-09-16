@@ -22,7 +22,7 @@
     ],
     "modules-right": [
         "cpu",
-        "memory",
+        "custom/monitor",
         "backlight",
         "pulseaudio",
         "bluetooth",
