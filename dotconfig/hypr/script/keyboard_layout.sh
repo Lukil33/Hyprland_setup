@@ -1,0 +1,5 @@
+# === CONTROLLO AFFINCHÈ IL LAYOUT SIA GIUSTO ===
+
+export XKB_CONFIG_ROOT="$HOME/.xkb"
+export XKB_DEFAULT_LAYOUT="custom_it"
+export XKB_DEFAULT_VARIANT="basic"
