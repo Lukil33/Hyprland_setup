@@ -84,7 +84,7 @@
                 },
                 {
                     "label": "󰁿",
-                    "command": "/home/lukil/.config/rofi/Battery/rofi-battery"
+                    "command": "bash -c 'swaync-client -C; /home/lukil/.config/rofi/Battery/rofi-battery'"
                 },
                 {
                     "label": "󰌾",
