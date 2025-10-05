@@ -1,7 +1,7 @@
 # === CONTROLLO UTILIZZO DI AUDIO PER INATTIVITÀ ===
 
 # Verifica se è in corso una riproduzione audio
-if pactl list sink-inputs | grep -q 'State: RUNNING'; then
+if pactl list sink-inputs | grep -q 'pulse.corked = "false"'; then
     # Audio in riproduzione: impedisce l'inattività
     hyprctl dispatch idleinhibit always
 else
