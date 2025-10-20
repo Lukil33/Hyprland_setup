@@ -34,48 +34,30 @@ else
 fi
 
 # Mostra il menu
-choice=$(echo -e "Monitor direction:\nUp\nRight\nDown\nLeft\n--------------------\nReload Configuration\nExit" | rofi -dmenu -i -p "Gestione Monitor")
+choice=$(echo -e "Monitor direction:\n--------------------\nMirror\nMove\nReload\n--------------------\nExit" | rofi -dmenu -i -p "Gestione Monitor")
 
 # Inizializza una variabile per dopo
 counter=0
 
 # Gestione scelte
 case "$choice" in
-    "Reload Configuration")
+    "Mirror")
+        > "$MONITOR_CONF"  # Svuota il file
+        main_monitor="${sorted_monitors[0]}"
+        echo "monitor = $main_monitor,preferred,auto,1" >> "$MONITOR_CONF"
+        for (( i=1; i<${#sorted_monitors[@]}; i++ )); do
+            mirror_monitor="${sorted_monitors[$i]}"
+            echo "monitor = $mirror_monitor,preferred,auto,1,mirror,$main_monitor" >> "$MONITOR_CONF"
+        done
+        hyprctl reload
+        ;;
+    "Move")
+        exec "$HOME/.config/rofi/Monitor/rofi-move-monitor"
+        ;;
+    "Reload")
         exec "$HOME/.config/rofi/Monitor/rofi-reload-monitor"
         ;;
-    "Up")
-        > "$MONITOR_CONF"  # Svuota il file
-        for m in "${sorted_monitors[@]}"; do
-            echo "monitor = $m,preferred,0x${counter},1" >> "$MONITOR_CONF"
-            counter=$((counter - 1080))
-        done
-        hyprctl reload
-    ;;
-    "Down")
-        > "$MONITOR_CONF"  # Svuota il file
-        for m in "${sorted_monitors[@]}"; do
-            echo "monitor = $m,preferred,0x${counter},1" >> "$MONITOR_CONF"
-            counter=$((counter + 1080))
-        done
-        hyprctl reload
-    ;;
-    "Left")
-        > "$MONITOR_CONF"  # Svuota il file
-        for m in "${sorted_monitors[@]}"; do
-            echo "monitor = $m,preferred,${counter}x0,1" >> "$MONITOR_CONF"
-            counter=$((counter - 1920))
-        done
-        hyprctl reload
-    ;;
-    "Right")
-        > "$MONITOR_CONF"  # Svuota il file
-        for m in "${sorted_monitors[@]}"; do
-            echo "monitor = $m,preferred,${counter}x0,1" >> "$MONITOR_CONF"
-            counter=$((counter + 1920))
-        done
-        hyprctl reload
-    ;;
+    
     *)
         exit 0
         ;;
