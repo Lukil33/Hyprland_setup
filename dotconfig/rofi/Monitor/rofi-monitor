@@ -2,42 +2,39 @@
 
 MONITOR_CONF="$HOME/.config/hypr/monitor.conf"
 
-# Prendi tutti i monitor attivi
-monitors=($(hyprctl monitors | grep "Monitor" | grep -v "disabled" | awk '{print $2}'))
+# Funzione per ottenere monitor ordinati
+get_monitors(){
+    local mons=($(hyprctl monitors | grep "Monitor" | grep -v "disabled" | awk '{print $2}'))
+    local sorted=()
 
-# Ordina manualmente: eDP-1 per primo
-sorted_monitors=()
+    for m in "${mons[@]}"; do
+        [[ "$m" == "eDP-1" ]] && sorted+=("$m")
+    done
+    for m in "${mons[@]}"; do
+        [[ "$m" != "eDP-1" ]] && sorted+=("$m")
+    done
 
-# Prima eDP-1 se presente
-for m in "${monitors[@]}"; do
-    if [[ "$m" == "eDP-1" ]]; then
-        sorted_monitors+=("$m")
-    fi
-done
+    echo "${sorted[@]}"
+}
 
-# Poi gli altri
-for m in "${monitors[@]}"; do
-    if [[ "$m" != "eDP-1" ]]; then
-        sorted_monitors+=("$m")
-    fi
-done
+# Funzione per settare il mirroring degli schermi
+monitor_mirroring(){
+    > "$MONITOR_CONF"
 
-# Conta e mostra
-count=${#sorted_monitors[@]}
+    local monitors=($(get_monitors))
+    local main_monitor="${monitors[0]}"
+    echo "monitor = $main_monitor,preferred,auto,1" >> "$MONITOR_CONF"
 
-if (( count == 1 )); then
-    result="Main monitor: ${sorted_monitors[0]}"
-elif (( count == 2 )); then
-    result="Main monitor: ${sorted_monitors[0]} | Secondary monitor: ${sorted_monitors[1]}"
-else
-    result="Monitor collegati: ${sorted_monitors[*]}"
-fi
+    for (( i=1; i<${#monitors[@]}; i++ )); do
+        mirror_monitor="${monitors[$i]}"
+        echo "monitor = $mirror_monitor,preferred,auto,1,mirror,$main_monitor" >> "$MONITOR_CONF"
+    done
+
+    hyprctl reload
+}
 
 # Mostra il menu
 choice=$(echo -e "External Monitor mode:\n--------------------\nMove\nMirror\nReload\n--------------------\nExit" | rofi -dmenu -i -p "Gestione Monitor Esterno")
-
-# Inizializza una variabile per dopo
-counter=0
 
 # Gestione scelte
 case "$choice" in
@@ -45,14 +42,7 @@ case "$choice" in
         exec "$HOME/.config/rofi/Monitor/rofi-move-monitor"
         ;;
     "Mirror")
-        > "$MONITOR_CONF"  # Svuota il file
-        main_monitor="${sorted_monitors[0]}"
-        echo "monitor = $main_monitor,preferred,auto,1" >> "$MONITOR_CONF"
-        for (( i=1; i<${#sorted_monitors[@]}; i++ )); do
-            mirror_monitor="${sorted_monitors[$i]}"
-            echo "monitor = $mirror_monitor,preferred,auto,1,mirror,$main_monitor" >> "$MONITOR_CONF"
-        done
-        hyprctl reload
+        monitor_mirroring
         ;;
     "Reload")
         exec "$HOME/.config/rofi/Monitor/rofi-reload-monitor"
