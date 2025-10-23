@@ -34,7 +34,7 @@ else
 fi
 
 # Mostra il menu
-choice=$(echo -e "Select direction:\nUp\nRight\nDown\nLeft\n--------------------\nBack\nExit" | rofi -dmenu -i -p "Seleziona direzione Monitor")
+choice=$(echo -e "Select direction:\nUp\nRight\nDown\nLeft\n--------------------\nBack\nExit" | rofi -dmenu -i -p "Selezione direzione Monitor")
 
 # Inizializza una variabile per dopo
 counter=0

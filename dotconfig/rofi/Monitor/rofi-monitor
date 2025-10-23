@@ -1,4 +1,4 @@
-# === GESTORE MONITOR ROFI ===
+# === GESTORE MONITOR ESTERNO ROFI ===
 
 MONITOR_CONF="$HOME/.config/hypr/monitor.conf"
 
@@ -34,13 +34,16 @@ else
 fi
 
 # Mostra il menu
-choice=$(echo -e "Monitor direction:\n--------------------\nMirror\nMove\nReload\n--------------------\nExit" | rofi -dmenu -i -p "Gestione Monitor")
+choice=$(echo -e "External Monitor mode:\n--------------------\nMove\nMirror\nReload\n--------------------\nExit" | rofi -dmenu -i -p "Gestione Monitor Esterno")
 
 # Inizializza una variabile per dopo
 counter=0
 
 # Gestione scelte
 case "$choice" in
+    "Move")
+        exec "$HOME/.config/rofi/Monitor/rofi-move-monitor"
+        ;;
     "Mirror")
         > "$MONITOR_CONF"  # Svuota il file
         main_monitor="${sorted_monitors[0]}"
@@ -50,9 +53,6 @@ case "$choice" in
             echo "monitor = $mirror_monitor,preferred,auto,1,mirror,$main_monitor" >> "$MONITOR_CONF"
         done
         hyprctl reload
-        ;;
-    "Move")
-        exec "$HOME/.config/rofi/Monitor/rofi-move-monitor"
         ;;
     "Reload")
         exec "$HOME/.config/rofi/Monitor/rofi-reload-monitor"
