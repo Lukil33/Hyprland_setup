@@ -10,7 +10,7 @@ NUM_MONITOR=$(hyprctl monitors | grep -c "Monitor")
     if pgrep wf-recorder > /dev/null; then
         RECORD_OPTION="Ferma registrazione"
     else
-        RECORD_OPTION="Avvia registrazione area\nAvvia registrazione intera"
+        RECORD_OPTION="Avvia registrazione area"
     fi
 
     # Funzione per selezione monitor
@@ -18,7 +18,7 @@ NUM_MONITOR=$(hyprctl monitors | grep -c "Monitor")
         hyprctl monitors | grep "Monitor" | awk '{print $2}' | rofi -dmenu -i -p "Seleziona Monitor"
     }
 
-    choice=$(echo -e "Screenshot area selezionata\nScreenshot intero\n$RECORD_OPTION\n--------------------\nExit"| rofi -dmenu -i -p "Gestione Schermo")
+    choice=$(echo -e "Screenshot area selezionata\n$RECORD_OPTION\n--------------------\nExit"| rofi -dmenu -i -p "Gestione Schermo")
 
     case "$choice" in
         "Screenshot area selezionata")
@@ -26,33 +26,11 @@ NUM_MONITOR=$(hyprctl monitors | grep -c "Monitor")
             grim -g "$(slurp)" "$FILE"
             notify-send "Screenshot salvato"
             ;;
-        "Screenshot intero")
-            if [ "$NUM_MONITOR" -gt 1 ]; then
-                MONITOR=$(select_monitor)
-            else
-                MONITOR=$(hyprctl monitors | grep "Monitor" | awk '{print $2}')
-            fi
-            [ -z "$MONITOR" ] && exit 0
-            FILE="$PHOTO_DIR/screenshot_$(date +"%Y-%m-%d_%H-%M-%S").png"
-            grim -o "$MONITOR" "$FILE"
-            notify-send "Screenshot salvato"
-            ;;
+        
         "Avvia registrazione area")
             FILE="$VIDEO_DIR/recording_$(date +"%Y-%m-%d_%H-%M-%S").mp4"
             echo "$FILE" > /tmp/hypr_recording
             wf-recorder -g "$(slurp)" -f "$FILE" &
-            notify-send "Registrazione iniziata"
-            ;;
-        "Avvia registrazione intera")
-            if [ "$NUM_MONITOR" -gt 1 ]; then
-                MONITOR=$(select_monitor)
-            else
-                MONITOR=$(hyprctl monitors | grep "Monitor" | awk '{print $2}')
-            fi
-            [ -z "$MONITOR" ] && exit 0
-            FILE="$VIDEO_DIR/recording_$(date +"%Y-%m-%d_%H-%M-%S").mp4"
-            echo "$FILE" > /tmp/hypr_recording
-            wf-recorder -o "$MONITOR" -f "$FILE" &
             notify-send "Registrazione iniziata"
             ;;
         "Ferma registrazione")
