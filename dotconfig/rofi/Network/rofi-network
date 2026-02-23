@@ -28,8 +28,13 @@ else
     wifi_status="disconnected"
 fi
 
-# Mostra il menu
-choice=$(echo -e "Wi-Fi: $wifi_enabled\nStatus: $wifi_status\n--------------------\nShow available networks\nOpen Network Manager\n--------------------\nExit" | rofi -dmenu -i -p "Gestione rete")
+# Mostra il menù
+# Se il Wi-Fi è disabilitato, mostra solo l'opzione per abilitarlo
+if [ "$wifi_enabled" == "disabled" ]; then
+    choice=$(echo -e "Wi-Fi: $wifi_enabled\n--------------------\nExit" | rofi -dmenu -i -p "Gestione rete")
+else
+    choice=$(echo -e "Wi-Fi: $wifi_enabled\nStatus: $wifi_status\n--------------------\nShow available networks\nOpen Network Manager\n--------------------\nExit" | rofi -dmenu -i -p "Gestione rete")
+fi
 
 # Gestione scelte
 case "$choice" in
