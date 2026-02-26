@@ -1,0 +1,34 @@
+# === GESTORE BLUETOOTH STATUS ROFI ===
+
+# Ottieni i dispositivi e i nomi dei dispositivi connessi
+connected_devices=$(echo "devices Connected" | bluetoothctl | grep 'Device' | cut -d ' ' -f3-)
+
+# Mostra il menù
+if [ -z "$connected_devices" ]; then
+    choice=$(echo -e "No connected devices\n--------------------\nBack\nExit" | rofi -dmenu -i -p "Bluetooth Status")
+else
+    choice=$(echo -e "Connected devices:\n$connected_devices\n--------------------\nBack\nExit" | rofi -dmenu -i -p "Bluetooth Status")
+fi
+
+# Gestione scelte
+case "$choice" in
+    "Back")
+        exec "$HOME/.config/rofi/Bluetooth/rofi-bluetooth"
+        ;;
+    "No connected devices")
+        exit 0
+        ;;
+    "Connected devices:")
+        exit 0
+        ;;
+    "--------------------")
+        exit 0
+        ;;
+    "Exit")
+        exit 0
+        ;;
+    *)
+        # Per qualsiasi dispositivo connesso, mostra un menù personalizzato
+        exec "$HOME/.config/rofi/Bluetooth/rofi-device-page" "$choice" "$HOME/.config/rofi/Bluetooth/rofi-bluetooth-status"
+        ;;
+esac

@@ -20,7 +20,7 @@
     // Custom update
     "custom/update": {
         "format": "󰅢 {}",
-        "exec": "dnf check-update -q | grep -c ^[a-z0-9] || echo 0",
+        "exec": "echo $(($(pacman -Qu | wc -l) + $(yay -Qua | wc -l)))",
         "interval": 60,
 	    "tooltip": false
     },
@@ -94,7 +94,7 @@
         "format-disabled": "󰂲",
         "tooltip": false,
         "interval": 30,
-        "on-click": "~/.config/rofi/Bluetooth/rofi-bluetooth"
+        "on-click": "exec blueman-manager"
     },
 
     // Network

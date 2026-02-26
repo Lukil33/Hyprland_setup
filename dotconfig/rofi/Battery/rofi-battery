@@ -1,6 +1,5 @@
-# === GESTORE BATTERIA ROFI ===
+# === GESTORE BATTERIA ROFI + CPUPOWER ===
 
-# Funzione per ottenere lo stato corrente della batteria
 get_charge() {
     battery=$(cat /sys/class/power_supply/BAT*/capacity)
 
@@ -19,45 +18,42 @@ get_charge() {
 }
 
 get_power_state() {
-    # Trova il dispositivo AC corretto
     for supply in /sys/class/power_supply/AC* /sys/class/power_supply/ADP*; do
         if [[ -e "$supply/online" ]]; then
             online=$(cat "$supply/online")
             if [[ "$online" == "1" ]]; then
-                echo "-> Charging"
+                echo "⚡ Charging"
             else
                 echo ""
             fi
             return
         fi
     done
-    echo "Stato sconosciuto"
 }
 
-
-# Funzione per impostare il governor su tutti i core
-set_governor_all_cores() {
-    GOV=$1
-    for CPUFREQ in /sys/devices/system/cpu/cpu[0-9]*/cpufreq/scaling_governor; do
-        echo "$GOV" | sudo tee "$CPUFREQ" > /dev/null
-    done
+# Ottieni governor corrente tramite cpupower
+get_current_governor() {
+    cpupower frequency-info | grep "Il gestore" | awk -F\" '{print $2}'
 }
 
-# Loop principale
+# Imposta governor con cpupower
+set_governor() {
+    sudo cpupower frequency-set -g "$1"
+}
+
 while true; do
     CURRENT_CHARGE=$(get_charge)
     CURRENT_STATE=$(get_power_state)
-    CURRENT_GOVERNOR=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)
+    CURRENT_GOVERNOR=$(get_current_governor)
 
-    # Menu Rofi
-    choice=$(echo -e "Batteria: $CURRENT_CHARGE $CURRENT_STATE\nGovernor attuale: $CURRENT_GOVERNOR\n--------------------\nGovernor: Performance\nGovernor: Powersave\n--------------------\nExit"| rofi -dmenu -i -p "Gestione Energia")
-    
+    choice=$(echo -e "Batteria: $CURRENT_CHARGE $CURRENT_STATE\nGovernor attuale: $CURRENT_GOVERNOR\n--------------------\nPerformance\nPowersave\n--------------------\nExit" | rofi -dmenu -i -p "Gestione Energia")
+
     case "$choice" in
-        "Governor: Performance")
-            set_governor_all_cores "performance"
+        "Performance")
+            set_governor performance
             ;;
-        "Governor: Powersave")
-            set_governor_all_cores "powersave"
+        "Powersave")
+            set_governor powersave
             ;;
         *)
             exit 0

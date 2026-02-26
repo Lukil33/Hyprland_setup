@@ -1,0 +1,53 @@
+# === GESTORE BLUETOOTH SCAN UNKNOWN ROFI ===
+
+# Eseguo uno scan per circa 5 secnodi per trovare dispositivi nelle vicinanze
+# Avvia bluetoothctl come processo copartecipante
+coproc bluetoothctl
+
+# Invia il comando di scan attraverso l'input del coprocesso
+echo "scan on" >&${COPROC[1]}
+
+# Attendi i secondi desiderati
+sleep 5
+
+# Ferma lo scan e chiudi
+echo "scan off" >&${COPROC[1]}
+echo "exit" >&${COPROC[1]}
+
+# Chiude forzatamente il coprocesso se ancora attivo
+kill $COPROC_PID 2>/dev/null
+
+sleep 0.5
+
+# Ottieni i dispositivi trovati e i nomi dei dispositivi
+devices=$(echo "devices" | bluetoothctl | grep 'Device' | cut -d ' ' -f3-)
+
+# Mostra il menù
+if [ -z "$devices" ]; then
+    choice=$(echo -e "No nearby devices found\n--------------------\nBack\nExit" | rofi -dmenu -i -p "Bluetooth Scan")
+else
+    choice=$(echo -e "Nearby devices:\n$devices\n--------------------\nBack\nExit" | rofi -dmenu -i -p "Bluetooth Scan")
+fi
+
+# Gestione scelte
+case "$choice" in
+    "Back")
+        exec "$HOME/.config/rofi/Bluetooth/rofi-bluetooth-scan"
+        ;;
+    "No nearby devices found")
+        exit 0
+        ;;
+    "Nearby devices:")
+        exit 0
+        ;;
+    "--------------------")
+        exit 0
+        ;;
+    "Exit")
+        exit 0
+        ;;
+    *)
+        # Per qualsiasi dispositivo connesso, mostra un menù personalizzato
+        exec "$HOME/.config/rofi/Bluetooth/rofi-device-page" "$choice" "$HOME/.config/rofi/Bluetooth/rofi-bluetooth-scan-other"
+        ;;
+esac

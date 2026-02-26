@@ -1,0 +1,38 @@
+# === GESTORE BLUETOOTH SCAN ROFI ===
+
+# Ottieni i dispositivi paired e i nomi dei dispositivi connessi
+paired_devices=$(echo "devices Paired" | bluetoothctl | grep 'Device' | cut -d ' ' -f3-)
+
+# Mostra il menù
+if [ -z "$paired_devices" ]; then
+    choice=$(echo -e "No paired devices\n--------------------\nScan other devices\n--------------------\nBack\nExit" | rofi -dmenu -i -p "Bluetooth Scan")
+else
+    choice=$(echo -e "Paired devices:\n$paired_devices\n--------------------\nScan other devices\n--------------------\nBack\nExit" | rofi -dmenu -i -p "Bluetooth Scan")
+fi
+
+# Gestione scelte
+case "$choice" in
+    "Back")
+        exec "$HOME/.config/rofi/Bluetooth/rofi-bluetooth"
+        ;;
+    "No paired devices")
+        exit 0
+        ;;
+    "Paired devices:")
+        exit 0
+        ;;
+    "--------------------")
+        exit 0
+        ;;
+    "Scan other devices")
+        notify-send "Scanning for nearby Bluetooth devices..."
+        exec "$HOME/.config/rofi/Bluetooth/rofi-bluetooth-scan-other"
+        ;;
+    "Exit")
+        exit 0
+        ;;
+    *)
+        # Per qualsiasi dispositivo connesso, mostra un menù personalizzato
+        exec "$HOME/.config/rofi/Bluetooth/rofi-device-page" "$choice" "$HOME/.config/rofi/Bluetooth/rofi-bluetooth-scan"
+        ;;
+esac

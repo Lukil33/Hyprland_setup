@@ -1,10 +1,10 @@
 # === GESTORE BLUETOOTH ROFI ===
 
 # Stato attuale del Bluetooth
-bluetooth_power_status=$(bluetoothctl show | awk '/Powered/ {print ($2=="yes" ? "enabled" : "disabled")}')
+bluetooth_power_status=$(echo "show" | bluetoothctl | awk '/Powered/ {print ($2=="yes" ? "enabled" : "disabled")}')
 
-# Ottieni la connessione attiva con nome e tipo
-bluetooth_status=$(bluetoothctl devices Connected | grep -q . && echo "connected" || echo "disconnected")
+# Ottieni se ci sono dispositivi connessi
+bluetooth_status=$(echo "devices Connected" | bluetoothctl | grep -q 'Device' && echo "connected" || echo "disconnected")
 
 # Mostra il menù
 # Se il Bluetooth è disabilitato, mostra solo l'opzione per abilitarlo

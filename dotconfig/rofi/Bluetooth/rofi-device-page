@@ -1,0 +1,49 @@
+# === GESTORE DISPOSITIVO BLUETOOTH ROFI ===
+
+if [ -z "$1" ] || [ -z "$2" ]; then
+    echo "Usage: $0 <device_name> <return_path>"
+    exit 1
+fi
+
+local device_name="$1"
+local return_page="$2"
+
+# Lista completa dei dispositivi
+devices=$(echo "devices" | bluetoothctl | grep 'Device')
+
+# Ottieni l'indirizzo MAC del dispositivo selezionato
+mac_address=$(echo "$devices" | grep "$device_name" | awk '{print $2}')
+
+# Controllo se il dispositivo è connesso
+connected=$(echo "info $mac_address" | bluetoothctl | grep 'Connected: ' | awk '{print $2}')
+
+# Controllo se il dispositivo viene ricordago
+paired=$(echo "info $mac_address" | bluetoothctl | grep 'Paired: ' | awk '{print $2}')
+
+# Menù dispositivo
+if [ -z "$mac_address" ]; then
+    choice=$(echo -e "Device $device_name not found\n--------------------\nBack\nExit" | rofi -dmenu -i -p "Device Menu")
+else
+    choice=$(echo -e "Device: $device_name\nConnected: $connected\nPaired: $paired\n--------------------\nBack\nExit" | rofi -dmenu -i -p "Device Menu")
+fi
+
+case "$choice" in
+    "Connected: yes")
+        bluetoothctl disconnect "$mac_address"
+        personal_page "$device_name"
+        ;;
+    "Connected: no")
+        bluetoothctl connect "$mac_address"
+        personal_page "$device_name"
+        ;;
+    "Paired: yes")
+        bluetoothctl remove "$mac_address"
+        personal_page "$device_name"
+        ;;
+    "Back")
+        exec $2
+        ;;
+    *)
+        exit 0
+        ;;
+esac
