@@ -24,13 +24,16 @@ devices=$(echo "devices" | bluetoothctl | grep 'Device' | cut -d ' ' -f3-)
 
 # Mostra il menù
 if [ -z "$devices" ]; then
-    choice=$(echo -e "No nearby devices found\n--------------------\nBack\nExit" | rofi -dmenu -i -p "Bluetooth Scan")
+    choice=$(echo -e "No nearby devices found\n--------------------\nReload\nBack\nExit" | rofi -dmenu -i -p "Bluetooth Scan")
 else
-    choice=$(echo -e "Nearby devices:\n$devices\n--------------------\nBack\nExit" | rofi -dmenu -i -p "Bluetooth Scan")
+    choice=$(echo -e "Nearby devices:\n$devices\n--------------------\nReload\nBack\nExit" | rofi -dmenu -i -p "Bluetooth Scan")
 fi
 
 # Gestione scelte
 case "$choice" in
+    "Reload")
+        exec "$HOME/.config/rofi/Bluetooth/rofi-bluetooth-scan-other"
+        ;;
     "Back")
         exec "$HOME/.config/rofi/Bluetooth/rofi-bluetooth-scan"
         ;;
