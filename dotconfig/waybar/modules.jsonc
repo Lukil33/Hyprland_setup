@@ -20,7 +20,7 @@
     // Custom update
     "custom/update": {
         "format": "󰅢 {}",
-        "exec": "echo $(($(pacman -Qu | wc -l) + $(yay -Qua | wc -l)))",
+        "exec": "echo $(($(checkupdates | wc -l) + $(yay -Qua | wc -l)))",
         "interval": 60,
 	    "tooltip": false
     },
