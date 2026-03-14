@@ -31,14 +31,17 @@ case "$choice" in
     "Connected: yes")
         bluetoothctl disconnect "$mac_address"
         personal_page "$device_name"
+        exec "$HOME/.config/rofi/Bluetooth/rofi-device-page" "$device_name" "$return_page"
         ;;
     "Connected: no")
         bluetoothctl connect "$mac_address"
         personal_page "$device_name"
+        exec "$HOME/.config/rofi/Bluetooth/rofi-device-page" "$device_name" "$return_page"
         ;;
     "Paired: yes")
         bluetoothctl remove "$mac_address"
         personal_page "$device_name"
+        exec "$HOME/.config/rofi/Bluetooth/rofi-device-page" "$device_name" "$return_page"
         ;;
     "Back")
         exec $2
