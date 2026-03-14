@@ -5,8 +5,8 @@ if [ -z "$1" ] || [ -z "$2" ]; then
     exit 1
 fi
 
-local device_name="$1"
-local return_page="$2"
+device_name="$1"
+return_page="$2"
 
 # Lista completa dei dispositivi
 devices=$(echo "devices" | bluetoothctl | grep 'Device')
@@ -30,17 +30,14 @@ fi
 case "$choice" in
     "Connected: yes")
         bluetoothctl disconnect "$mac_address"
-        personal_page "$device_name"
         exec "$HOME/.config/rofi/Bluetooth/rofi-device-page" "$device_name" "$return_page"
         ;;
     "Connected: no")
         bluetoothctl connect "$mac_address"
-        personal_page "$device_name"
         exec "$HOME/.config/rofi/Bluetooth/rofi-device-page" "$device_name" "$return_page"
         ;;
     "Paired: yes")
         bluetoothctl remove "$mac_address"
-        personal_page "$device_name"
         exec "$HOME/.config/rofi/Bluetooth/rofi-device-page" "$device_name" "$return_page"
         ;;
     "Back")
