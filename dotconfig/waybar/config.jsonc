@@ -15,6 +15,7 @@
     "modules-left": [
         "custom/settings",
         "clock",
+        "idle_inhibitor",
         "custom/update"
     ],
     "modules-center": [

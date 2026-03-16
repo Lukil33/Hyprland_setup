@@ -17,6 +17,16 @@
         "tooltip": false
     },
 
+    // Inhibitor
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󰒳",
+            "deactivated": "󰒲"
+        },
+        "tooltip": false
+    },
+
     // Custom update
     "custom/update": {
         "format": "󰅢 {}",
