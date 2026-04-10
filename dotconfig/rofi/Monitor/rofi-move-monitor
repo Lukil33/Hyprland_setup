@@ -1,8 +1,22 @@
+#!/bin/bash
+
 # === GESTORE MOVIMENTO MONITOR ROFI ===
 
 MONITOR_CONF="$HOME/.config/hypr/monitor.conf"
 
-# Funzione per ottenere monitor ordinati
+# Funzione per ottenere i dati dei monitor tramite hyprctl
+get_monitor_data() {
+    hyprctl monitors -j
+}
+
+# Funzione per ottenere larghezza e altezza di un monitor specifico
+get_dim() {
+    local name=$1
+    local axis=$2 # "width" o "height"
+    get_monitor_data | jq -r ".[] | select(.name == \"$name\") | .$axis"
+}
+
+# Funzione per ottenere monitor ordinati (eDP-1 sempre per primo)
 get_monitors(){
     local mons=($(hyprctl monitors | grep "Monitor" | grep -v "disabled" | awk '{print $2}'))
     local sorted=()
@@ -17,7 +31,7 @@ get_monitors(){
     echo "${sorted[@]}"
 }
 
-# Funzione per refresh completo
+# Funzione per refresh completo in caso di mirror
 refresh_hyprland(){
     for m in $(hyprctl monitors | grep "Monitor" | awk '{print $2}'); do
         hyprctl keyword monitor "$m,disable"
@@ -37,9 +51,10 @@ is_mirrored(){
     fi
 }
 
-# Funzione per settare la posizione
+# Funzione principale per il posizionamento
 monitor_positioning(){
-    # Esegui refresh solo se nel file precedente era presente "mirror"
+    local direction=$1
+    
     if is_mirrored; then
         > "$MONITOR_CONF"
         refresh_hyprland
@@ -47,39 +62,65 @@ monitor_positioning(){
         > "$MONITOR_CONF"
     fi
 
-    local x=0
-    local y=0
     local monitors=($(get_monitors))
+    
+    # Prendiamo le dimensioni di eDP-1 per calcolare Right e Down
+    local edp_w=$(get_dim "eDP-1" "width")
+    local edp_h=$(get_dim "eDP-1" "height")
 
     for m in "${monitors[@]}"; do
-        echo "monitor = $m,preferred,${x}x${y},1" >> "$MONITOR_CONF"
-        x=$((x + $1))
-        y=$((y + $2))
+        if [[ "$m" == "eDP-1" ]]; then
+            # Il monitor del laptop è sempre l'origine
+            echo "monitor = $m,preferred,0x0,1" >> "$MONITOR_CONF"
+        else
+            # Dimensioni del monitor esterno corrente
+            local ext_w=$(get_dim "$m" "width")
+            local ext_h=$(get_dim "$m" "height")
+
+            case "$direction" in
+                "Up")
+                    # Sopra eDP-1: y deve essere -altezza_monitor_esterno
+                    echo "monitor = $m,preferred,0x-$ext_h,1" >> "$MONITOR_CONF"
+                    ;;
+                "Down")
+                    # Sotto eDP-1: y inizia dove finisce eDP-1
+                    echo "monitor = $m,preferred,0x$edp_h,1" >> "$MONITOR_CONF"
+                    ;;
+                "Left")
+                    # Sinistra eDP-1: x deve essere -larghezza_monitor_esterno
+                    echo "monitor = $m,preferred,-${ext_w}x0,1" >> "$MONITOR_CONF"
+                    ;;
+                "Right")
+                    # Destra eDP-1: x inizia dove finisce eDP-1
+                    echo "monitor = $m,preferred,${edp_w}x0,1" >> "$MONITOR_CONF"
+                    ;;
+            esac
+        fi
     done
 
     hyprctl reload
 }
 
-# Mostra il menu
-choice=$(echo -e "Select direction:\nUp\nRight\nDown\nLeft\n--------------------\nBack\nExit" | rofi -dmenu -i -p "Selezione direzione Monitor")
+# --- LOGICA DI ESECUZIONE ---
 
-# Aggiorna lo stato dei monitor
+# Mostra il menu Rofi
+choice=$(echo -e "Up\nRight\nDown\nLeft\n--------------------\nBack\nExit" | rofi -dmenu -i -p "Posizione monitor esterno rispetto a eDP-1")
 
-# Gestione scelte
 case "$choice" in
     "Up")
-        monitor_positioning 0 -1080 
+        monitor_positioning "Up"
         ;;
     "Down")
-        monitor_positioning 0 1080
+        monitor_positioning "Down"
         ;;
     "Left")
-        monitor_positioning -1920 0
+        monitor_positioning "Left"
         ;;
     "Right")
-        monitor_positioning 1920 0
+        monitor_positioning "Right"
         ;;
     "Back")
+        # Assicurati che il percorso al file principale sia corretto
         exec "$HOME/.config/rofi/Monitor/rofi-monitor"
         ;;
     *)
