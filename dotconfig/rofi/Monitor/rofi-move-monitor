@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # === GESTORE MOVIMENTO MONITOR ROFI ===
+# Aggiornato per Hyprland 0.55+ (config Lua)
 
-MONITOR_CONF="$HOME/.config/hypr/monitor.conf"
+MONITOR_CONF=$1
 
 # Funzione per ottenere i dati dei monitor tramite hyprctl
 get_monitor_data() {
@@ -39,7 +40,7 @@ refresh_hyprland(){
     sleep 0.3
     hyprctl reload
     sleep 0.3
-    hyprctl dispatch dpms on
+    hyprctl dispatch 'hl.dsp.dpms({ action = "on" })'
 }
 
 # Funzione per controllare se è attivo il mirroring
@@ -54,7 +55,7 @@ is_mirrored(){
 # Funzione principale per il posizionamento
 monitor_positioning(){
     local direction=$1
-    
+
     if is_mirrored; then
         > "$MONITOR_CONF"
         refresh_hyprland
@@ -63,7 +64,7 @@ monitor_positioning(){
     fi
 
     local monitors=($(get_monitors))
-    
+
     # Prendiamo le dimensioni di eDP-1 per calcolare Right e Down
     local edp_w=$(get_dim "eDP-1" "width")
     local edp_h=$(get_dim "eDP-1" "height")
@@ -71,28 +72,34 @@ monitor_positioning(){
     for m in "${monitors[@]}"; do
         if [[ "$m" == "eDP-1" ]]; then
             # Il monitor del laptop è sempre l'origine
-            echo "monitor = $m,preferred,0x0,1" >> "$MONITOR_CONF"
+            echo "hl.monitor({ output = \"$m\", mode = \"preferred\", position = \"0x0\", scale = 1 })" >> "$MONITOR_CONF"
         else
             # Dimensioni del monitor esterno corrente
             local ext_w=$(get_dim "$m" "width")
             local ext_h=$(get_dim "$m" "height")
 
+            # Offset per centrare la zona di sovrapposizione quando i monitor hanno
+            # dimensioni diverse, cosi' il passaggio del mouse avviene al centro
+            # invece che restare incollato al bordo superiore/sinistro.
+            local y_center_offset=$(( (edp_h - ext_h) / 2 ))
+            local x_center_offset=$(( (edp_w - ext_w) / 2 ))
+
             case "$direction" in
                 "Up")
-                    # Sopra eDP-1: y deve essere -altezza_monitor_esterno
-                    echo "monitor = $m,preferred,0x-$ext_h,1" >> "$MONITOR_CONF"
+                    # Sopra eDP-1: y deve essere -altezza_monitor_esterno, x centrato
+                    echo "hl.monitor({ output = \"$m\", mode = \"preferred\", position = \"${x_center_offset}x-$ext_h\", scale = 1 })" >> "$MONITOR_CONF"
                     ;;
                 "Down")
-                    # Sotto eDP-1: y inizia dove finisce eDP-1
-                    echo "monitor = $m,preferred,0x$edp_h,1" >> "$MONITOR_CONF"
+                    # Sotto eDP-1: y inizia dove finisce eDP-1, x centrato
+                    echo "hl.monitor({ output = \"$m\", mode = \"preferred\", position = \"${x_center_offset}x$edp_h\", scale = 1 })" >> "$MONITOR_CONF"
                     ;;
                 "Left")
-                    # Sinistra eDP-1: x deve essere -larghezza_monitor_esterno
-                    echo "monitor = $m,preferred,-${ext_w}x0,1" >> "$MONITOR_CONF"
+                    # Sinistra eDP-1: x deve essere -larghezza_monitor_esterno, y centrato
+                    echo "hl.monitor({ output = \"$m\", mode = \"preferred\", position = \"-${ext_w}x${y_center_offset}\", scale = 1 })" >> "$MONITOR_CONF"
                     ;;
                 "Right")
-                    # Destra eDP-1: x inizia dove finisce eDP-1
-                    echo "monitor = $m,preferred,${edp_w}x0,1" >> "$MONITOR_CONF"
+                    # Destra eDP-1: x inizia dove finisce eDP-1, y centrato
+                    echo "hl.monitor({ output = \"$m\", mode = \"preferred\", position = \"${edp_w}x${y_center_offset}\", scale = 1 })" >> "$MONITOR_CONF"
                     ;;
             esac
         fi

@@ -1,6 +1,9 @@
-# === GESTORE MONITOR ESTERNO ROFI ===
+#!/bin/bash
 
-MONITOR_CONF="$HOME/.config/hypr/monitor.conf"
+# === GESTORE MONITOR ESTERNO ROFI ===
+# Aggiornato per Hyprland 0.55+ (config Lua)
+
+MONITOR_CONF="$HOME/.config/hypr/monitor.lua"
 
 # Funzione per ottenere monitor ordinati
 get_monitors(){
@@ -23,11 +26,11 @@ monitor_mirroring(){
 
     local monitors=($(get_monitors))
     local main_monitor="${monitors[0]}"
-    echo "monitor = $main_monitor,preferred,auto,1" >> "$MONITOR_CONF"
+    echo "hl.monitor({ output = \"$main_monitor\", mode = \"preferred\", position = \"auto\", scale = 1 })" >> "$MONITOR_CONF"
 
     for (( i=1; i<${#monitors[@]}; i++ )); do
         mirror_monitor="${monitors[$i]}"
-        echo "monitor = $mirror_monitor,preferred,auto,1,mirror,$main_monitor" >> "$MONITOR_CONF"
+        echo "hl.monitor({ output = \"$mirror_monitor\", mode = \"preferred\", position = \"auto\", scale = 1, mirror = \"$main_monitor\" })" >> "$MONITOR_CONF"
     done
 
     hyprctl reload
@@ -39,7 +42,7 @@ choice=$(echo -e "External Monitor mode:\n--------------------\nMove\nMirror\nRe
 # Gestione scelte
 case "$choice" in
     "Move")
-        exec "$HOME/.config/rofi/Monitor/rofi-move-monitor"
+        exec "$HOME/.config/rofi/Monitor/rofi-move-monitor" "$MONITOR_CONF"
         ;;
     "Mirror")
         monitor_mirroring
