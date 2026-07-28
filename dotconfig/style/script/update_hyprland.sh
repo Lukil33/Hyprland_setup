@@ -1,8 +1,10 @@
+#!/bin/bash
+
 # === FILE CHE GENERA I COLORI PER HYPRLAND ===
 
 # Percorsi
 WAL_COLORS="$HOME/.cache/wal/colors"
-HYPR_COLORS="$HOME/.cache/wal/colors-hyprland.conf"
+HYPR_COLORS="$HOME/.config/hypr/colors-hyprland.lua"
 
 # Funzione per convertire HEX -> rgba()
 hex_to_rgba() {
@@ -17,11 +19,14 @@ hex_to_rgba() {
   echo "rgba($r,$g,$b,1.0)"
 }
 
-# Crea il file colors-hyprland.conf
+# Pulisco e inizializzo il file colors-hyprland
+echo "local colors = {" > "$HYPR_COLORS"
 {
   for i in {0..7}; do
     hex=$(sed -n "$((i+1))p" "$WAL_COLORS")
     rgba=$(hex_to_rgba "$hex")
-    echo "\$color$i = $rgba"
+    echo "  color$i = \"$rgba\","
   done
-} > "$HYPR_COLORS"
+} >> "$HYPR_COLORS"
+echo "}" >> "$HYPR_COLORS"
+echo "return colors" >> "$HYPR_COLORS"

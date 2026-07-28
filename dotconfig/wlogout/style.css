@@ -1,4 +1,4 @@
-@define-color border #5F8DB8;
+@import "/home/lukil/.cache/wal/colors-waybar.css";
 
 * {
 	background-image: none;
@@ -24,7 +24,7 @@ button {
 }
 
 button:focus, button:active, button:hover {
-    border-color: @border;
+    border-color: @color2;
 	outline-style: none;
 }
 

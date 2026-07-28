@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # === CONTROLLO PRESENZA DI UPDATE PER INATTIVITÀ ===
 
 # Verifica se è in corso un update

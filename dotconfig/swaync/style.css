@@ -1,23 +1,23 @@
-@define-color bg rgba(2, 8, 22, 1.0);
-@define-color fg rgba(162, 151, 187, 1.0);
-@define-color crs rgba(162, 151, 187, 1.0);
-@define-color color0 rgba(2, 8, 22, 1.0);
-@define-color color1 rgba(170, 66, 69, 1.0);
-@define-color color2 rgba(246, 152, 87, 1.0);
-@define-color dark_color2 rgba(246, 152, 87, 0.5);
-@define-color color3 rgba(250, 193, 93, 1.0);
-@define-color color4 rgba(57, 32, 130, 1.0);
-@define-color color5 rgba(38, 63, 129, 1.0);
-@define-color color6 rgba(46, 68, 128, 1.0);
-@define-color color7 rgba(162, 151, 187, 1.0);
-@define-color color8 rgba(113, 105, 130, 1.0);
-@define-color color9 rgba(170, 66, 69, 1.0);
-@define-color color10 rgba(246, 152, 87, 1.0);
-@define-color color11 rgba(250, 193, 93, 1.0);
-@define-color color12 rgba(57, 32, 130, 1.0);
-@define-color color13 rgba(38, 63, 129, 1.0);
-@define-color color14 rgba(46, 68, 128, 1.0);
-@define-color color15 rgba(162, 151, 187, 1.0);
+@define-color bg rgba(47, 27, 36, 1.0);
+@define-color fg rgba(241, 227, 172, 1.0);
+@define-color crs rgba(241, 227, 172, 1.0);
+@define-color color0 rgba(47, 27, 36, 1.0);
+@define-color color1 rgba(154, 94, 96, 1.0);
+@define-color color2 rgba(220, 104, 77, 1.0);
+@define-color dark_color2 rgba(220, 104, 77, 0.5);
+@define-color color3 rgba(166, 138, 112, 1.0);
+@define-color color4 rgba(244, 150, 69, 1.0);
+@define-color color5 rgba(234, 166, 85, 1.0);
+@define-color color6 rgba(247, 208, 95, 1.0);
+@define-color color7 rgba(241, 227, 172, 1.0);
+@define-color color8 rgba(168, 158, 120, 1.0);
+@define-color color9 rgba(154, 94, 96, 1.0);
+@define-color color10 rgba(220, 104, 77, 1.0);
+@define-color color11 rgba(166, 138, 112, 1.0);
+@define-color color12 rgba(244, 150, 69, 1.0);
+@define-color color13 rgba(234, 166, 85, 1.0);
+@define-color color14 rgba(247, 208, 95, 1.0);
+@define-color color15 rgba(241, 227, 172, 1.0);
 
 /* Font settings */
 * {

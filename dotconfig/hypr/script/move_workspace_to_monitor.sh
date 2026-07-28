@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # === GESTIONE SPOSTAMENTO WORKSPACE AL PROSSIMO MONITOR ===
 
 # Ottieni nome del monitor corrente (dove c'è il workspace attivo)
@@ -19,4 +21,4 @@ next_index=$(( (current_index + 1) % ${#monitors[@]} ))
 next_monitor="${monitors[$next_index]}"
 
 # Sposta il workspace attivo sul monitor successivo
-hyprctl dispatch movecurrentworkspacetomonitor "$next_monitor"
+hyprctl dispatch "hl.dsp.workspace.move({ workspace = hl.get_active_workspace().id, monitor = \"$next_monitor\" })"

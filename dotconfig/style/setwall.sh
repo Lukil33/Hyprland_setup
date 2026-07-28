@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # === FILE WRAPPER CHE CAMBIA LO SFONDO E APPLICA I RELATIVI TEMI ===
 
 # Numero di immagini fornite come argomento
@@ -43,8 +45,8 @@ $HOME/.config/style/script/update_hyprland.sh
 # Modifico il file style di SwayNC
 $HOME/.config/style/script/update_swaync.sh
 
-# Modifico il file style di Wlogout
-$HOME/.config/style/script/update_wlogout.sh
+# Modifico il file style di SDDM
+sudo $HOME/.config/style/script/update_sddm.sh "$path1"
 
 # Rimuovi lo sfondo ativo
 pkill hyprpaper

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # === CONTROLLO APPLICAZIONE ATTIVA PER BLOCCO SPEGNIMENTO SCHERMO ===
 
 IGNORE_FILE="$HOME/.config/hypr/script/ignored_apps.txt"

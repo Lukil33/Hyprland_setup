@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # === CONTROLLO AFFINCHÈ IL LAYOUT SIA GIUSTO ===
 
 export XKB_CONFIG_ROOT="$HOME/.xkb"

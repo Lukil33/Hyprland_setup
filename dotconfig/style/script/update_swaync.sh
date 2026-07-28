@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # === FILE PER MODIFICARE IL FILE DELLO STILE DI SWAYNC ===
 
 COLORS="$HOME/.cache/wal/colors.json"

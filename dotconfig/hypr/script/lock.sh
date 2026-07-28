@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # === WRAPPER PER LANCIARE HYPRLOCK ===
 
 # Valori di default se non sono già impostati

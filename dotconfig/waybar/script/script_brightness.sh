@@ -1,3 +1,7 @@
+#!/bin/bash
+
+# === REGOLATORE PER LA LUCE NOTTURNA ===
+
 if pgrep -x "wlsunset" > /dev/null; then
     pkill "wlsunset"
 else

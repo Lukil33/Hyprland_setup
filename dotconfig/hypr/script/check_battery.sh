@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # === CONTROLLO BATTERIA PER NOTIFICA ===
 
 # Dispositivo batteria (adatta se necessario)
