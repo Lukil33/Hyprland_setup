@@ -1,4 +1,5 @@
 Questa è la repository con tutti i miei settaggi di Hyprland, i miei script sono basati sul mio attuale sistema operativo: Arch, se qualcosa non funziona io di sicuro non sono la persona giusta alla quale chiedere.
+Parte della documentazione sta venendo scritta, quindi se trovate dei README bene, altrimenti tra poco li aggiungerò.
 I font utilizzati sono stati aggiunti alla repo.
 
 ### OUTDATED PART
