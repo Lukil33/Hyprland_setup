@@ -53,7 +53,9 @@ ShellRoot {
             // Don't allow interaction while hidden
             enabled: panelVisible
 
-            color: "#202020"
+            property color background: "#202020"
+
+            color: background
             radius: 12
 
             MouseArea {
@@ -66,18 +68,7 @@ ShellRoot {
             }
 
             Text {
-                anchors {
-                    left: parent.left
-                    top: parent.top
-                    margins: 15
-                }
-
-                text: "Volume: " +
-                      Math.round(
-                          Pipewire.defaultAudioSink.audio.volume * 100
-                      ) +
-                      "%"
-
+                text: "Volume: " + Math.round( Pipewire.defaultAudioSink.audio.volume * 100 ) + "%"
                 color: "white"
                 font.pixelSize: 20
             }
@@ -92,11 +83,8 @@ ShellRoot {
                     margins: 15
                 }
 
-                // Slider goes from 0 to 100
                 from: 0
                 to: 100
-
-                // Only whole numbers
                 stepSize: 1
 
                 // Get the current system volume
@@ -106,8 +94,7 @@ ShellRoot {
                 // When the slider moves,
                 // change the actual system volume
                 onMoved: {
-                    Pipewire.defaultAudioSink.audio.volume =
-                        value / 100
+                    Pipewire.defaultAudioSink.audio.volume = value / 100
 
                     // Keep the panel visible while using it
                     panelVisible = true
