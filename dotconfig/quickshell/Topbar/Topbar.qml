@@ -62,10 +62,7 @@ PanelWindow {
 
             spacing: 10
 
-            Text {
-                text: "Workspaces"
-                color: "white"
-            }
+            Modules.Workspaces{}
         }
     }
 
@@ -90,12 +87,10 @@ PanelWindow {
             Modules.Cpu{color: textcolor}
             Modules.Monitor{color: textcolor}
             Modules.Brightness{color: textcolor}
-
-            Text {
-                text: "Workspaces"
-                color: "white"
-            }
-
+            Modules.Audio{color: textcolor}
+            Modules.Bluetooth{color: textcolor}
+            Modules.Network{color: textcolor}
+            Modules.Battery{color: textcolor}
             Modules.Logout{color: textcolor}
         }
     }

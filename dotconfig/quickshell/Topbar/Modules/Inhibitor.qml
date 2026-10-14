@@ -1,28 +1,24 @@
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
+import "State" as State
 
 Text {
     id: root
 
-    property bool activated: false
-
-    text: activated ? "󰒳" : "󰒲"
+    text: State.IdleState.activated ? "󰒳" : "󰒲"
 
     IdleInhibitor {
-        id: inhibitor
-
         window: root.QsWindow.window
-        enabled: root.activated
+        enabled: State.IdleState.activated
     }
 
     MouseArea {
         anchors.fill: parent
-
         cursorShape: Qt.PointingHandCursor
 
         onClicked: {
-            root.activated = !root.activated
+            State.IdleState.activated = !State.IdleState.activated
         }
     }
 }
