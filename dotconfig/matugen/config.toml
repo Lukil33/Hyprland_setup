@@ -1,0 +1,29 @@
+[config]
+
+[templates.Hyprland]
+input_path = 'templates/colors.lua'
+output_path = '../hypr/colors-hyprland.lua'
+
+[templates.Hyprlock]
+input_path = 'templates/hyprlock.conf'
+output_path = '../hypr/hyprlock.conf'
+
+[templates.Kitty]
+input_path = 'templates/colors.conf'
+output_path = '../kitty/colors-kitty.conf'
+
+[templates.Quickshell]
+input_path = 'templates/colors.qml'
+output_path = '../quickshell/colors-quickshell.qml'
+
+[templates.Rofi]
+input_path = 'templates/colors.rasi'
+output_path = '../rofi/colors-rofi.rasi'
+
+[templates.Swaync]
+input_path = 'templates/swaync.css'
+output_path = '../swaync/colors-swaync.css'
+
+[templates.Wlogout]
+input_path = 'templates/colors.css'
+output_path = '../wlogout/colors-wlogout.css'

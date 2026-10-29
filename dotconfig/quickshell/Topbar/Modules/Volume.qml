@@ -2,8 +2,13 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Pipewire
+import ".." as Back
 
-Text{
+Text {
+    // Icon Style
+    color: Back.Theme.textcolor
+    font.pixelSize: Back.Theme.fontSize
+
     PwObjectTracker { objects: [Pipewire.defaultAudioSink] }
 
     readonly property var sink: Pipewire.defaultAudioSink

@@ -1,4 +1,4 @@
--- Config Hyprland per Hyprland 0.55+
+-- Config Hyprland for Hyprland 0.55+
 
 ------------------
 ---- MONITORS ----
@@ -17,7 +17,6 @@ local menu        = "rofi -show drun"
 -------------------
 ---- AUTOSTART ----
 -------------------
--- Vedi https://wiki.hypr.land/Configuring/Basics/Autostart/
 
 hl.on("hyprland.start", function()
     hl.exec_cmd("hyprpaper")
@@ -51,8 +50,8 @@ hl.config({
         border_size = 2,
 
         col = {
-            active_border   = colors.color4,
-            inactive_border = colors.color1,
+            active_border   = colors.active_border,
+            inactive_border = colors.inactive_border,
         },
 
         -- Se true, permette di ridimensionare le finestre trascinando bordi/gaps

@@ -1,4 +1,4 @@
-@import "~/.cache/wal/colors-rofi-dark.rasi"
+@import "colors-rofi.rasi"
 
 * {
     font: "Symbols Nerd Font 12";

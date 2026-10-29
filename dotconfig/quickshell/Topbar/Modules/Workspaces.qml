@@ -1,20 +1,30 @@
 import QtQuick
 import Quickshell
 import Quickshell.Hyprland
+import ".." as Back
 
 Row {
     id: root
 
-    spacing: 6
+    required property var screen
+
+    spacing: Back.Theme.moduleSpacing
+
+    readonly property var currentMonitor: Hyprland.monitorFor(screen)
 
     Repeater {
-        model: Hyprland.workspaces.values.filter(ws => ws.id > 0)
+        model: Hyprland.workspaces.values.filter(
+            ws => ws.id > 0 && ws.monitor === root.currentMonitor
+        )
 
         delegate: Text {
+            // Icon Style
+            font.pixelSize: Back.Theme.fontSize
+
             required property HyprlandWorkspace modelData
 
             text: ""
-            color: modelData.active ? "white" : "#666666"
+            color: modelData.active && Hyprland.focusedMonitor?.name === root.currentMonitor?.name ? Back.Theme.textcolor : "#666666"
 
             MouseArea {
                 anchors.fill: parent

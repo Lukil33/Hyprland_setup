@@ -1,26 +1,14 @@
 import QtQuick
 import Quickshell
+import "State" as State
+import ".." as Back
 
 Text {
-    id: root
+    // Icon Style
+    color: Back.Theme.textcolor
+    font.pixelSize: Back.Theme.fontSize
 
-    function updateClock() {
-        const now = new Date()
-
-        text = Qt.formatDateTime(now, "HH:mm ddd")
-
-        clockTimer.interval = 60000 - (now.getSeconds() * 1000 + now.getMilliseconds())
-    }
-
-    Timer {
-        id: clockTimer
-
-        interval: 60000
-        running: true
-        repeat: true
-
-        onTriggered: root.updateClock()
-    }
+    text: State.ClockState.clockText
 
     MouseArea {
         anchors.fill: parent
@@ -30,6 +18,4 @@ Text {
             Quickshell.execDetached(["korganizer"])
         }
     }
-
-    Component.onCompleted: root.updateClock()
 }

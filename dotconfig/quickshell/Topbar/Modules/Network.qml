@@ -1,50 +1,52 @@
 import QtQuick
 import Quickshell
 import Quickshell.Networking
+import ".." as Back
 
 Text {
-    readonly property var activeDevice: {
-        for (let i = 0; i < Networking.devices.values.length; i++) {
-            const device = Networking.devices.values[i]
+    // Icon Style
+    color: Back.Theme.textcolor
+    font.pixelSize: Back.Theme.fontSize
 
-            if (device.connected)
-                return device
-        }
-
-        return null
+    readonly property var connectedDevices: {
+        return Networking.devices.values.filter(
+            device => device.connected
+        )
     }
 
-    readonly property var activeNetwork:
-        activeDevice ? activeDevice.networks.values.find(
-            network => network.connected
-        ) ?? null : null
+    readonly property var wiredDevice: {
+        return connectedDevices.find(
+            device => device.type === DeviceType.Wired
+        ) ?? null
+    }
+
+    readonly property var wifiDevice: {
+        return connectedDevices.find(
+            device => device.type !== DeviceType.Wired
+        ) ?? null
+    }
 
     text: {
-        if (!Networking.wifiEnabled)
-            return ""
-
-        if (!activeDevice)
-            return "󰤮"
-
-        if (activeDevice.type === DeviceType.Wired)
-            return ""
-
-        if (activeNetwork) {
-            const strength = activeNetwork.signalStrength * 100
-
-            if (strength <= 20)
-                return "󰤯"
-            if (strength <= 40)
-                return "󰤟"
-            if (strength <= 60)
-                return "󰤢"
-            if (strength <= 80)
-                return "󰤥"
-            
-            return "󰤨"
+        if (!wiredDevice && !wifiDevice) {
+            return Networking.wifiEnabled ? "󰤮" : ""
         }
 
-        return "󰤮"
+        if (wiredDevice) {
+            return ""
+        }
+
+        const strength = activeNetwork.signalStrength * 100
+
+        if (strength <= 20)
+            return "󰤯"
+        if (strength <= 40)
+            return "󰤟"
+        if (strength <= 60)
+            return "󰤢"
+        if (strength <= 80)
+            return "󰤥"
+
+        return "󰤨"
     }
 
     MouseArea {

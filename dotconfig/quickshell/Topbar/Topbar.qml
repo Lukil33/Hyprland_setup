@@ -3,11 +3,15 @@ import Quickshell
 import "Modules" as Modules
 
 PanelWindow {
+
+    margins {
+        top: 4
+        left: 10
+        right: 10
+    }
+
     required property var modelData
     screen: modelData
-
-    // Temporal
-    property string textcolor: "white"
 
     id: root
     color: "transparent"
@@ -22,9 +26,12 @@ PanelWindow {
 
     // Left panel
     Rectangle {
+        // Themes
+        color: Theme.background
+        radius: Theme.cornerRadius
+
         implicitWidth: left_mod.width+20
         implicitHeight: root.height/1.5
-        color: "black"
 
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
@@ -35,21 +42,24 @@ PanelWindow {
             anchors.centerIn: parent
             anchors.verticalCenter: parent.verticalCenter
 
-            spacing: 10
+            spacing: Theme.moduleSpacing
 
             // List of modules
-            Modules.Settings{color: textcolor}
-            Modules.Clock{color: textcolor}
-            Modules.Inhibitor{color: textcolor}
-            Modules.Updates{color: textcolor}
+            Modules.Settings{y: 3}
+            Modules.Clock{}
+            Modules.Inhibitor{y: 3}
+            Modules.Updates{}
         }
     }
 
     // Central panel
     Rectangle {
+        // Themes
+        color: Theme.background
+        radius: Theme.cornerRadius
+
         implicitWidth: central_mod.width+20
         implicitHeight: root.height/1.5
-        color: "black"
 
         anchors.centerIn: parent
         anchors.verticalCenter: parent.verticalCenter
@@ -60,17 +70,20 @@ PanelWindow {
             anchors.centerIn: parent
             anchors.verticalCenter: parent.verticalCenter
 
-            spacing: 10
+            spacing: Theme.moduleSpacing
 
-            Modules.Workspaces{}
+            Modules.Workspaces{ screen: root.screen }
         }
     }
 
     // Right panel
     Rectangle {
+        // Themes
+        color: Theme.background
+        radius: Theme.cornerRadius
+
         implicitWidth: right_mod.width+20
         implicitHeight: root.height/1.5
-        color: "black"
 
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
@@ -81,17 +94,17 @@ PanelWindow {
             anchors.centerIn: parent
             anchors.verticalCenter: parent.verticalCenter
 
-            spacing: 10
+            spacing: Theme.moduleSpacing
 
             // List of modules
-            Modules.Cpu{color: textcolor}
-            Modules.Monitor{color: textcolor}
-            Modules.Brightness{color: textcolor}
-            Modules.Audio{color: textcolor}
-            Modules.Bluetooth{color: textcolor}
-            Modules.Network{color: textcolor}
-            Modules.Battery{color: textcolor}
-            Modules.Logout{color: textcolor}
+            Modules.Cpu{}
+            Modules.Monitor{}
+            Modules.Brightness{}
+            Modules.Volume{}
+            Modules.Bluetooth{}
+            Modules.Network{}
+            Modules.Battery{}
+            Modules.Logout{}
         }
     }
 }

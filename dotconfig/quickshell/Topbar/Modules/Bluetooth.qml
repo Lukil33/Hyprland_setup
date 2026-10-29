@@ -1,8 +1,13 @@
 import QtQuick
 import Quickshell
 import Quickshell.Bluetooth
+import ".." as Back
 
-Text{
+Text {
+    // Icon Style
+    color: Back.Theme.textcolor
+    font.pixelSize: Back.Theme.fontSize
+
     readonly property bool powered: Bluetooth.defaultAdapter !== null && Bluetooth.defaultAdapter.enabled
 
     readonly property bool connected: Bluetooth.devices.values.some(device => device.connected)

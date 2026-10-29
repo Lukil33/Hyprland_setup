@@ -1,23 +1,4 @@
-@define-color bg rgba(47, 27, 36, 1.0);
-@define-color fg rgba(241, 227, 172, 1.0);
-@define-color crs rgba(241, 227, 172, 1.0);
-@define-color color0 rgba(47, 27, 36, 1.0);
-@define-color color1 rgba(154, 94, 96, 1.0);
-@define-color color2 rgba(220, 104, 77, 1.0);
-@define-color dark_color2 rgba(220, 104, 77, 0.5);
-@define-color color3 rgba(166, 138, 112, 1.0);
-@define-color color4 rgba(244, 150, 69, 1.0);
-@define-color color5 rgba(234, 166, 85, 1.0);
-@define-color color6 rgba(247, 208, 95, 1.0);
-@define-color color7 rgba(241, 227, 172, 1.0);
-@define-color color8 rgba(168, 158, 120, 1.0);
-@define-color color9 rgba(154, 94, 96, 1.0);
-@define-color color10 rgba(220, 104, 77, 1.0);
-@define-color color11 rgba(166, 138, 112, 1.0);
-@define-color color12 rgba(244, 150, 69, 1.0);
-@define-color color13 rgba(234, 166, 85, 1.0);
-@define-color color14 rgba(247, 208, 95, 1.0);
-@define-color color15 rgba(241, 227, 172, 1.0);
+@import url("colors-swaync.css");
 
 /* Font settings */
 * {
@@ -45,7 +26,7 @@
     background: @bg;
     padding: 7px;
     border-radius: 5px;
-    border: 1px solid @color2;
+    border: 1px solid @color4;
     margin: 0;
 }
 .close-button:hover,
@@ -62,15 +43,15 @@
 .notification-action:hover,
 .notification-action {
     color: @color7;
-    border: 2px solid @color2;
+    border: 2px solid @color4;
     border-top: none;
     border-radius: 5px;
-    background: @color2;
+    background: @color4;
 }
 .summary {
     padding-top: 7px;
     font-size: 13px;
-    color: @color2;
+    color: @color4;
 }
 .time {
     font-size: 11px;
@@ -85,7 +66,7 @@
 /* Control center styling */
 .control-center {
     background: @bg;
-    border: 2px solid @color2;
+    border: 2px solid @color4;
     border-radius: 5px;
 }
 .control-center-list {
@@ -111,15 +92,15 @@
 }
 .widget-title > button {
     font-size: 1rem;
-    color: @color2;
+    color: @color4;
     text-shadow: none;
     background: @bg;
     box-shadow: none;
-    border: 1px solid @color2;
+    border: 1px solid @color4;
     border-radius: 5px;
 }
 .widget-title > button:hover {
-    background: @color2;
+    background: @color4;
     color: @bg;
 }
 
@@ -133,17 +114,17 @@
 }
 .widget-dnd > switch{
     background: @bg;
-    color: @color2;
-    border: 1px solid @color2;
+    color: @color4;
+    border: 1px solid @color4;
     border-radius: 5px;
 }
 .widget-dnd > switch:checked {
-    background: @dark_color2;
+    background: @dark_color4;
 }
 .widget-dnd > switch slider,
 .widget-dnd > switch:checked slider {
-    background: @color2;
-    border: 1px solid @color2;
+    background: @color4;
+    border: 1px solid @color4;
     border-radius: 5px;
 }
 
@@ -154,15 +135,15 @@
     margin: 0px 10px 0px 10px;
 }
 .widget-mpris button {
-    color: @color2;
+    color: @color4;
     background: @bg;
-    border: 1px solid @color2;
+    border: 1px solid @color4;
     border-radius: 5px;
 }
 .widget-mpris button:hover {
     color: @bg;
-    background: @color2;
-    border: 1px solid @color2;
+    background: @color4;
+    border: 1px solid @color4;
     border-radius: 5px;
 }
 .widget-mpris-player {
@@ -170,7 +151,7 @@
     margin: 10px;
 }
 .widget-mpris-title {
-    color: @color2;
+    color: @color4;
     font-weight: 700;
     font-size: 1.25rem;
 }
@@ -198,8 +179,8 @@
 }
 .widget-backlight scale trough highlight,
 .widget-volume scale trough highlight{
-    background-color: @color2;
-    border: 1px solid @color2;
+    background-color: @color4;
+    border: 1px solid @color4;
 }
 
 .widget-buttons-grid {
@@ -210,18 +191,18 @@
 .widget-buttons-grid > flowbox > flowboxchild > button {
     margin: 3px;
     background: @bg;
-    color: @color2;
-    border: 1px solid @color2;
+    color: @color4;
+    border: 1px solid @color4;
     border-radius: 5px;
 }
 .widget-buttons-grid > flowbox > flowboxchild > button label {
     font-size: 14px;
 }
 .widget-buttons-grid > flowbox > flowboxchild > button:hover {
-    background: @color2;
+    background: @color4;
     color: @bg;
 }
 .widget-buttons-grid > flowbox > flowboxchild > button.active {
-    background-color: @color2;
+    background-color: @color4;
     color: @bg;
 }

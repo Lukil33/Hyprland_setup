@@ -1,0 +1,20 @@
+@define-color foreground   {{ colors.on_background.default.hex }};
+@define-color background   {{ colors.background.default.hex }};
+@define-color cursor       {{ colors.on_background.default.hex }};
+
+@define-color color0       {{ base16.base00.default.hex }};
+@define-color color1       {{ base16.base01.default.hex }};
+@define-color color2       {{ base16.base02.default.hex }};
+@define-color color3       {{ base16.base03.default.hex }};
+@define-color color4       {{ base16.base04.default.hex }};
+@define-color color5       {{ base16.base05.default.hex }};
+@define-color color6       {{ base16.base06.default.hex }};
+@define-color color7       {{ base16.base07.default.hex }};
+@define-color color8       {{ base16.base08.default.hex }};
+@define-color color9       {{ base16.base09.default.hex }};
+@define-color color10      {{ base16.base0a.default.hex }};
+@define-color color11      {{ base16.base0b.default.hex }};
+@define-color color12      {{ base16.base0c.default.hex }};
+@define-color color13      {{ base16.base0d.default.hex }};
+@define-color color14      {{ base16.base0e.default.hex }};
+@define-color color15      {{ base16.base0f.default.hex }};

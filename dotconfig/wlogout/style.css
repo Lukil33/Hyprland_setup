@@ -1,4 +1,4 @@
-@import "/home/lukil/.cache/wal/colors-waybar.css";
+@import "colors-wlogout.css";
 
 * {
 	background-image: none;
@@ -24,7 +24,7 @@ button {
 }
 
 button:focus, button:active, button:hover {
-    border-color: @color2;
+    border-color: @color4;
 	outline-style: none;
 }
 

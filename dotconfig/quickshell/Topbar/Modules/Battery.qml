@@ -1,8 +1,13 @@
 import QtQuick
 import Quickshell
 import Quickshell.Services.UPower
+import ".." as Back
 
 Text {
+    // Icon Style
+    color: Back.Theme.textcolor
+    font.pixelSize: Back.Theme.fontSize
+
     property int goodThreshold: 95
     property int warningThreshold: 20
     property int criticalThreshold: 10

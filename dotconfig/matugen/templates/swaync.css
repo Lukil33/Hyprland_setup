@@ -1,0 +1,20 @@
+@define-color fg {{ colors.on_background.default.rgba }};
+@define-color bg {{ colors.background.default.rgba }};
+@define-color crs {{ colors.on_background.default.rgba }};
+
+@define-color color0 {{ base16.base00.default.rgba }};
+@define-color color1 {{ base16.base01.default.rgba }};
+@define-color color2 {{ base16.base02.default.rgba }};
+@define-color color3 {{ base16.base03.default.rgba }};
+@define-color color4 {{ base16.base04.default.rgba }};
+@define-color color5 {{ base16.base05.default.rgba }};
+@define-color color6 {{ base16.base06.default.rgba }};
+@define-color color7 {{ base16.base07.default.rgba }};
+@define-color color8 {{ base16.base08.default.rgba }};
+@define-color color9 {{ base16.base09.default.rgba }};
+@define-color color10 {{ base16.base0a.default.rgba }};
+@define-color color11 {{ base16.base0b.default.rgba }};
+@define-color color12 {{ base16.base0c.default.rgba }};
+@define-color color13 {{ base16.base0d.default.rgba }};
+@define-color color14 {{ base16.base0e.default.rgba }};
+@define-color color15 {{ base16.base0f.default.rgba }};

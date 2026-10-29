@@ -1,41 +1,11 @@
 import QtQuick
-import Quickshell
-import Quickshell.Io
+import "State" as State
+import ".." as Back
 
 Text {
-    id: root
-    
-    property string updateCount: "0"
-    
-    text: "󰅢 " + root.updateCount
+    // Icon Style
+    color: Back.Theme.textcolor
+    font.pixelSize: Back.Theme.fontSize
 
-    Process {
-        id: updateProcess
-
-        command: [
-            "bash",
-            "-c",
-            "echo $(($(checkupdates 2>/dev/null | wc -l) + $(yay -Qua 2>/dev/null | wc -l)))"
-        ]
-
-        stdout: StdioCollector {
-            onStreamFinished: {
-                root.updateCount = text.trim()
-            }
-        }
-    }
-
-    Timer {
-        interval: 60000
-        running: true
-        repeat: true
-
-        onTriggered: {
-            updateProcess.running = true
-        }
-    }
-
-    Component.onCompleted: {
-        updateProcess.running = true
-    }
+    text: "󰅢 " + State.UpdateState.updateCount
 }
