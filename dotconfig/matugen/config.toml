@@ -14,7 +14,7 @@ output_path = '../kitty/colors-kitty.conf'
 
 [templates.Quickshell]
 input_path = 'templates/colors.qml'
-output_path = '../quickshell/colors-quickshell.qml'
+output_path = '../quickshell/Colors.qml'
 
 [templates.Rofi]
 input_path = 'templates/colors.rasi'

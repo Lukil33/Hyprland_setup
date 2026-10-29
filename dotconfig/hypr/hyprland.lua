@@ -20,7 +20,7 @@ local menu        = "rofi -show drun"
 
 hl.on("hyprland.start", function()
     hl.exec_cmd("hyprpaper")
-    hl.exec_cmd("waybar")
+    hl.exec_cmd("quickshell")
     hl.exec_cmd("swaync")
     hl.exec_cmd("hypridle")
     hl.exec_cmd("~/.config/hypr/script/check_battery.sh")
@@ -186,7 +186,7 @@ hl.bind("CTRL + " .. mainMod .. " + X", hl.dsp.layout("togglesplit")) -- solo dw
 hl.bind("CTRL + " .. mainMod .. " + Z", hl.dsp.window.float({ action = "toggle" }))
 
 -- Moduli Rofi (volume e luminosità più in basso)
-hl.bind(mainMod .. " + " .. mainMod .. "_L", hl.dsp.exec_cmd("pkill rofi || " .. menu))
+hl.bind(mainMod .. " + " .. mainMod .. "_L", hl.dsp.exec_cmd("pkill rofi || " .. menu), {release=true})
 hl.bind("CTRL + " .. mainMod .. " + A", hl.dsp.exec_cmd("pkill rofi || ~/.config/rofi/Bluetooth/rofi-bluetooth"))
 hl.bind("CTRL + " .. mainMod .. " + S", hl.dsp.exec_cmd("pkill rofi || ~/.config/rofi/Network/rofi-network"))
 hl.bind("CTRL + " .. mainMod .. " + D", hl.dsp.exec_cmd("pkill rofi || ~/.config/rofi/Battery/rofi-battery"))

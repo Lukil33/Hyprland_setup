@@ -1,110 +1,114 @@
+
 import QtQuick
 import Quickshell
 import "Modules" as Modules
 
 PanelWindow {
-
-    margins {
-        top: 4
-        left: 10
-        right: 10
-    }
+    id: root
 
     required property var modelData
     screen: modelData
 
-    id: root
     color: "transparent"
+    implicitHeight: screen.height * Theme.barHeightRatio
 
-    // Panel position and size
-    implicitHeight: screen.height * 0.05
     anchors {
         top: true
         left: true
         right: true
     }
 
+    margins {
+        top: Theme.topMargin
+        left: Theme.horizontalMargin
+        right: Theme.horizontalMargin
+    }
+
     // Left panel
     Rectangle {
-        // Themes
-        color: Theme.background
+        id: leftPanel
+
+        color: Theme.panelBackground
         radius: Theme.cornerRadius
 
-        implicitWidth: left_mod.width+20
-        implicitHeight: root.height/1.5
+        implicitWidth: leftModules.implicitWidth + Theme.panelPadding * 2
+        implicitHeight: root.height * Theme.panelHeightRatio
 
-        anchors.left: parent.left
-        anchors.verticalCenter: parent.verticalCenter
+        anchors {
+            left: parent.left
+            verticalCenter: parent.verticalCenter
+        }
 
         Row {
-            id: left_mod
+            id: leftModules
 
             anchors.centerIn: parent
-            anchors.verticalCenter: parent.verticalCenter
-
             spacing: Theme.moduleSpacing
 
-            // List of modules
-            Modules.Settings{y: 3}
-            Modules.Clock{}
-            Modules.Inhibitor{y: 3}
-            Modules.Updates{}
+            Modules.Settings {
+                y: Theme.offsetModuleY
+            }
+            Modules.Clock {}
+            Modules.Inhibitor {
+                y: Theme.offsetModuleY
+            }
+            Modules.Updates {}
         }
     }
 
-    // Central panel
+    // Center panel
     Rectangle {
-        // Themes
-        color: Theme.background
+        id: centerPanel
+
+        color: Theme.panelBackground
         radius: Theme.cornerRadius
 
-        implicitWidth: central_mod.width+20
-        implicitHeight: root.height/1.5
+        implicitWidth: centerModules.implicitWidth + Theme.panelPadding * 2
+        implicitHeight: root.height * Theme.panelHeightRatio
 
         anchors.centerIn: parent
-        anchors.verticalCenter: parent.verticalCenter
-        
+
         Row {
-            id: central_mod
+            id: centerModules
 
             anchors.centerIn: parent
-            anchors.verticalCenter: parent.verticalCenter
-
             spacing: Theme.moduleSpacing
 
-            Modules.Workspaces{ screen: root.screen }
+            Modules.Workspaces {
+                screen: root.screen
+            }
         }
     }
 
     // Right panel
     Rectangle {
-        // Themes
-        color: Theme.background
+        id: rightPanel
+
+        color: Theme.panelBackground
         radius: Theme.cornerRadius
 
-        implicitWidth: right_mod.width+20
-        implicitHeight: root.height/1.5
+        implicitWidth: rightModules.implicitWidth + Theme.panelPadding * 2
+        implicitHeight: root.height * Theme.panelHeightRatio
 
-        anchors.right: parent.right
-        anchors.verticalCenter: parent.verticalCenter
+        anchors {
+            right: parent.right
+            verticalCenter: parent.verticalCenter
+        }
 
         Row {
-            id: right_mod
+            id: rightModules
 
             anchors.centerIn: parent
-            anchors.verticalCenter: parent.verticalCenter
-
             spacing: Theme.moduleSpacing
 
-            // List of modules
-            Modules.Cpu{}
-            Modules.Monitor{}
-            Modules.Brightness{}
-            Modules.Volume{}
-            Modules.Bluetooth{}
-            Modules.Network{}
-            Modules.Battery{}
-            Modules.Logout{}
+            Modules.Cpu {}
+            Modules.Monitor {}
+            Modules.Brightness {}
+            Modules.Volume {}
+            Modules.Bluetooth {}
+            Modules.Network {}
+            Modules.Battery {}
+            Modules.Logout {}
         }
     }
 }

@@ -1,3 +1,4 @@
+
 import QtQuick
 import Quickshell
 import Quickshell.Networking
@@ -5,45 +6,70 @@ import ".." as Back
 
 Text {
     // Icon Style
-    color: Back.Theme.textcolor
+    color: mouseHover.hovered ? Back.Theme.activecolor : Back.Theme.textcolor
     font.pixelSize: Back.Theme.fontSize
 
-    readonly property var connectedDevices: {
-        return Networking.devices.values.filter(
+    Behavior on color {
+        ColorAnimation {
+            duration: Back.Theme.hoverDuration
+            easing.type: Easing.OutCubic
+        }
+    }
+
+    HoverHandler {
+        id: mouseHover
+    }
+
+    // Icon Logic
+    id: root
+
+    readonly property var connectedDevices:
+        Networking.devices.values.filter(
             device => device.connected
         )
-    }
 
-    readonly property var wiredDevice: {
-        return connectedDevices.find(
+    readonly property var wiredDevice:
+        connectedDevices.find(
             device => device.type === DeviceType.Wired
         ) ?? null
-    }
 
-    readonly property var wifiDevice: {
-        return connectedDevices.find(
-            device => device.type !== DeviceType.Wired
+    readonly property var wifiDevice:
+        Networking.devices.values.find(
+            device => device.type === DeviceType.Wifi
         ) ?? null
-    }
+
+    readonly property var activeNetwork:
+        wifiDevice?.networks.values.find(
+            network => network.connected
+        ) ?? null
+
+    readonly property real signalStrength:
+        activeNetwork?.signalStrength ?? 0
 
     text: {
-        if (!wiredDevice && !wifiDevice) {
-            return Networking.wifiEnabled ? "󰤮" : ""
-        }
-
-        if (wiredDevice) {
+        // Ethernet connessa
+        if (wiredDevice)
             return ""
-        }
 
-        const strength = activeNetwork.signalStrength * 100
+        // Wi-Fi disattivato
+        if (!Networking.wifiEnabled)
+            return ""
 
-        if (strength <= 20)
+        // Wi-Fi attivo ma senza connessione
+        if (!activeNetwork)
+            return "󰤮"
+
+        // Intensità del segnale Wi-Fi: da 0 a 1
+        if (signalStrength <= 0.2)
             return "󰤯"
-        if (strength <= 40)
+
+        if (signalStrength <= 0.4)
             return "󰤟"
-        if (strength <= 60)
+
+        if (signalStrength <= 0.6)
             return "󰤢"
-        if (strength <= 80)
+
+        if (signalStrength <= 0.8)
             return "󰤥"
 
         return "󰤨"
@@ -51,11 +77,14 @@ Text {
 
     MouseArea {
         anchors.fill: parent
-
         cursorShape: Qt.PointingHandCursor
 
         onClicked: {
-            Quickshell.execDetached(["kitty", "-e", "nmtui"])
+            Quickshell.execDetached([
+                "kitty",
+                "-e",
+                "nmtui"
+            ])
         }
     }
 }

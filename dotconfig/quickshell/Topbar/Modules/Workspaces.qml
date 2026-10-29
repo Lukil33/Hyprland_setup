@@ -24,7 +24,7 @@ Row {
             required property HyprlandWorkspace modelData
 
             text: ""
-            color: modelData.active && Hyprland.focusedMonitor?.name === root.currentMonitor?.name ? Back.Theme.textcolor : "#666666"
+            color: modelData.active && Hyprland.focusedMonitor?.name === root.currentMonitor?.name ? Back.Theme.activecolor : Back.Theme.inactivecolor
 
             MouseArea {
                 anchors.fill: parent
